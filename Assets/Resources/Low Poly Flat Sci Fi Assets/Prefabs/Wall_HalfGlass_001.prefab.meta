@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 162bbb86efec240b396abff4e93b705a
+timeCreated: 1517065316
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Wall_HalfGlass_001.prefab
+  uploadId: 231532

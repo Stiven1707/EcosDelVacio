@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: d200972476f594f94a5f0383765e7ffd
+timeCreated: 1517065322
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/WindowFrame_001.prefab
+  uploadId: 231532

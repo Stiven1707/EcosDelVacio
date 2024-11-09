@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a4645edf24a14487aa16adbc4bf27745
+timeCreated: 1517068578
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Wall_2_Doorway.prefab
+  uploadId: 231532
