@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 31cad283d8c624b5fbd9aea295b3391a
+timeCreated: 1517074352
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Wall_2_Column.prefab
+  uploadId: 231532

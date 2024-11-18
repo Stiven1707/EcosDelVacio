@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 577953e537b1844288f80e85957428d0
+timeCreated: 1517601151
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Pod_Broken_001.prefab
+  uploadId: 231532
