@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TerminalBehavior : MonoBehaviour
+public class terminal : MonoBehaviour
 {
     [Header("Configuraciones del Puzzle")]
     public string correctCode = "NEXUSS"; 
