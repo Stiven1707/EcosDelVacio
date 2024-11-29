@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 03aabe02e1a9c48f2b83a9e24a71a921
+timeCreated: 1517352454
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Wall_2_X05.prefab
+  uploadId: 231532
