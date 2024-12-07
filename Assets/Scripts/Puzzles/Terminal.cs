@@ -1,153 +1,148 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class terminal : MonoBehaviour
+public class Terminal : MonoBehaviour
 {
-    [Header("Configuraciones del Puzzle")]
-    public string correctCode = "NEXUSS"; 
-    public float resetFeedbackDelay = 2f;
-    public int intentosMaximos = 3; // 
+    public GameObject MensajeTerminal;  
+    public GameObject codeInputUI;         
+    public InputField codigo;              
+    public Button aceptarButton;           
+    public string correctCode = "NEXXUS";  
+    public Text feedbackMessage;           
+    private bool isPlayerNearby = false;   
+    private GameObject player;             
+    private bool isCodeInputActive = false;
 
-    [Header("Referencias de UI")]
-    public InputField inputField; // Campo de texto para ingresar el código
-    public Text feedbackText; // Texto para mostrar retroalimentación al jugador
-    public GameObject rewardPanel; // Panel que contiene las recompensas
-
-    [Header("Efectos Visuales y Sonoros")]
-    public AudioSource successAudio; // Sonido de éxito
-    public AudioSource errorAudio; // Sonido de error
-    public Light terminalLight; // Luz de la terminal (indicador de estado)
-
-    [Header("Interacción del Jugador")]
-    public GameObject player; // Jugador para detectar proximidad
-    public float interactionDistance = 3f; // Distancia para permitir interacción
-    public GameObject interactionPrompt; // Indicador de interacción
-
-    // Estado interno
-    private int attempts = 0; // Contador de intentos
-    private bool isPlayerNear = false; // Bandera para saber si el jugador está cerca
-
-    void Start()
+    private void Start()
     {
-        // Configuración inicial
-        feedbackText.text = "";
-        rewardPanel.SetActive(false);
-        interactionPrompt.SetActive(false);
-        terminalLight.color = Color.yellow; // Luz amarilla inicial para indicar "esperando"
-    }
-
-    void Update()
-    {
-        HandlePlayerProximity();
-    }
-
-    // Maneja la proximidad del jugador para activar la interacción
-    void HandlePlayerProximity()
-    {
-        float distance = Vector3.Distance(player.transform.position, transform.position);
-
-        if (distance <= interactionDistance)
+        player = GameObject.Find("AstronautIdle");
+        if (player == null)
         {
-            if (!isPlayerNear)
-            {
-                isPlayerNear = true;
-                interactionPrompt.SetActive(true); // Mostrar indicador de interacción
-            }
-
-            if (Input.GetKeyDown(KeyCode.E)) // Tecla E para interactuar
-            {
-                ActivateTerminal();
-            }
+            Debug.LogError("Player with name 'AstronautIdle' not found in the scene.");
         }
-        else if (isPlayerNear)
+
+        if (MensajeTerminal != null)
         {
-            isPlayerNear = false;
-            interactionPrompt.SetActive(false); // Ocultar indicador
-        }
-    }
-
-    // Activa la interfaz de la terminal
-    void ActivateTerminal()
-    {
-        inputField.gameObject.SetActive(true); // Mostrar campo de entrada
-        feedbackText.text = "Introduce el código y presiona Enter.";
-        inputField.ActivateInputField(); // Hacer foco en el campo
-    }
-
-    // Validar código ingresado
-    public void CheckCode()
-    {
-        string enteredCode = inputField.text.ToUpper().Trim(); // Normalizar entrada
-        attempts++;
-
-        if (enteredCode == correctCode)
-        {
-            UnlockRewards();
+            MensajeTerminal.SetActive(false);
         }
         else
         {
-            if (attempts >= intentosMaximos)
+            Debug.LogError("Interaction Message UI not assigned.");
+        }
+
+        if (codeInputUI != null)
+        {
+            codeInputUI.SetActive(false);
+        }
+        else
+        {
+            Debug.LogError("Code Input UI not assigned.");
+        }
+
+        if (aceptarButton != null)
+        {
+            aceptarButton.onClick.AddListener(() => SubmitCode(codigo.text));
+        }
+        else
+        {
+            Debug.LogError("Submit Button (Aceptar) not assigned.");
+        }
+
+        if (feedbackMessage != null)
+        {
+            feedbackMessage.text = "";
+            feedbackMessage.gameObject.SetActive(false); // Asegurarse de que inicie desactivado
+        }
+        else
+        {
+            Debug.LogError("Feedback Message UI not assigned.");
+        }
+    }
+
+    private void Update()
+    {
+        // Mostrar UI de entrada si el jugador presiona E y la UI no está activa
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E) && !isCodeInputActive)
+        {
+            ShowCodeInputUI();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == player)
+        {
+            isPlayerNearby = true;
+            if (MensajeTerminal != null)
             {
-                LockTerminal();
+                MensajeTerminal.SetActive(true);
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == player)
+        {
+            isPlayerNearby = false;
+            if (MensajeTerminal != null)
+            {
+                MensajeTerminal.SetActive(false);
+            }
+
+            if (codeInputUI != null)
+            {
+                codeInputUI.SetActive(false);
+                isCodeInputActive = false;
+            }
+
+            if (feedbackMessage != null)
+            {
+                feedbackMessage.gameObject.SetActive(false); // Ocultar retroalimentación
+            }
+        }
+    }
+
+    private void ShowCodeInputUI()
+    {
+        if (codeInputUI != null)
+        {
+            codeInputUI.SetActive(true); 
+            if (codigo != null)
+            {
+                codigo.text = ""; 
+                codigo.ActivateInputField(); 
+            }
+
+            if (feedbackMessage != null)
+                feedbackMessage.gameObject.SetActive(false); // Ocultar retroalimentación previa
+
+            isCodeInputActive = true; 
+        }
+    }
+
+    public void SubmitCode(string enteredCode)
+    {
+        if (feedbackMessage != null)
+        {
+            feedbackMessage.gameObject.SetActive(true); // Mostrar mensaje de retroalimentación
+
+            if (enteredCode == correctCode)
+            {
+                feedbackMessage.text = "Código correcto. Recompensa desbloqueada.";
+                Debug.Log("Recompensa desbloqueada.");
             }
             else
             {
-                IncorrectCode();
+                feedbackMessage.text = "Código incorrecto. Inténtalo de nuevo.";
+                Debug.Log("Código incorrecto.");
             }
         }
 
-        inputField.text = ""; // Limpiar el campo de entrada
-    }
-
-    // Manejar código correcto
-    void UnlockRewards()
-    {
-        feedbackText.text = "Código correcto. Recompensas desbloqueadas.";
-        feedbackText.color = Color.green;
-
-        rewardPanel.SetActive(true); // Mostrar recompensas
-        terminalLight.color = Color.green; // Cambiar luz a verde
-        successAudio.Play(); // Reproducir audio de éxito
-
-        DisableInteraction();
-    }
-
-    // Manejar código incorrecto
-    void IncorrectCode()
-    {
-        feedbackText.text = $"Código incorrecto. Intentos restantes: {intentosMaximos - attempts}.";
-        feedbackText.color = Color.red;
-
-        errorAudio.Play(); // Reproducir sonido de error
-        StartCoroutine(ResetFeedback());
-    }
-
-    // Bloquear la terminal después de demasiados intentos
-    void LockTerminal()
-    {
-        feedbackText.text = "Terminal bloqueada. Demasiados intentos fallidos.";
-        feedbackText.color = Color.red;
-
-        terminalLight.color = Color.red; // Cambiar luz a rojo
-        errorAudio.Play(); // Sonido de error crítico
-
-        DisableInteraction();
-    }
-
-    // Resetear el feedback visual después de un tiempo
-    IEnumerator ResetFeedback()
-    {
-        yield return new WaitForSeconds(resetFeedbackDelay);
-        feedbackText.text = "Introduce el código y presiona Enter.";
-        feedbackText.color = Color.white;
-    }
-
-    // Desactivar interacción después de desbloquear o bloquear
-    void DisableInteraction()
-    {
-        inputField.interactable = false;
-        interactionPrompt.SetActive(false);
-        isPlayerNear = false;
+        if (codeInputUI != null)
+        {
+            codeInputUI.SetActive(false);
+            isCodeInputActive = false; 
+        }
     }
 }
