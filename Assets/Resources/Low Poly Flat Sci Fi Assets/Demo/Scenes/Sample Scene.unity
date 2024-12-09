@@ -19423,7 +19423,7 @@ GameObject:
   - component: {fileID: 540775438}
   - component: {fileID: 540775437}
   m_Layer: 5
-  m_Name: EnterX+
+  m_Name: EnterX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
