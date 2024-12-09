@@ -1,148 +1,139 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Terminal : MonoBehaviour
+public class TerminalInteraction : MonoBehaviour
 {
-    public GameObject MensajeTerminal;  
-    public GameObject codeInputUI;         
-    public InputField codigo;              
-    public Button aceptarButton;           
-    public string correctCode = "NEXXUS";  
-    public Text feedbackMessage;           
-    private bool isPlayerNearby = false;   
-    private GameObject player;             
-    private bool isCodeInputActive = false;
+    public GameObject terminalCanvas; // Canvas que contiene la UI del terminal
+    public InputField codeInputField; // Campo de entrada para el código
+    public Text feedbackText; // Texto de retroalimentación (Correcto/Incorrecto)
+    public Button acceptButton; // Botón "Aceptar" para verificar el código
+    public string correctCode = "NEXXUS"; // Código correcto
+
+    public GameObject interactionMessage; // UI para mostrar "Presione E para interactuar"
+
+    private bool isPlayerNearby = false; // Indica si el jugador está cerca
+    private bool isCanvasActive = false; // Indica si el Canvas está visible
 
     private void Start()
     {
-        player = GameObject.Find("AstronautIdle");
-        if (player == null)
+        // Ocultar el Canvas y el mensaje de interacción al inicio
+        if (terminalCanvas != null)
         {
-            Debug.LogError("Player with name 'AstronautIdle' not found in the scene.");
+            terminalCanvas.SetActive(false);
         }
 
-        if (MensajeTerminal != null)
+        if (interactionMessage != null)
         {
-            MensajeTerminal.SetActive(false);
+            interactionMessage.SetActive(false);
+        }
+
+        if (feedbackText != null)
+        {
+            feedbackText.text = "";
+        }
+
+        // Configurar el botón "Aceptar"
+        if (acceptButton != null)
+        {
+            acceptButton.onClick.AddListener(CheckCode);
         }
         else
         {
-            Debug.LogError("Interaction Message UI not assigned.");
-        }
-
-        if (codeInputUI != null)
-        {
-            codeInputUI.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("Code Input UI not assigned.");
-        }
-
-        if (aceptarButton != null)
-        {
-            aceptarButton.onClick.AddListener(() => SubmitCode(codigo.text));
-        }
-        else
-        {
-            Debug.LogError("Submit Button (Aceptar) not assigned.");
-        }
-
-        if (feedbackMessage != null)
-        {
-            feedbackMessage.text = "";
-            feedbackMessage.gameObject.SetActive(false); // Asegurarse de que inicie desactivado
-        }
-        else
-        {
-            Debug.LogError("Feedback Message UI not assigned.");
+            Debug.LogError("El botón 'Aceptar' no está asignado en el Inspector.");
         }
     }
 
     private void Update()
     {
-        // Mostrar UI de entrada si el jugador presiona E y la UI no está activa
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E) && !isCodeInputActive)
+        // Mostrar/ocultar el Canvas al presionar E si el jugador está cerca y no está escribiendo en el InputField
+        if (isPlayerNearby && Input.GetKeyDown(KeyCode.E) && !codeInputField.isFocused)
         {
-            ShowCodeInputUI();
+            ToggleCanvas();
+        }
+
+        // Verificar si se presiona Enter cuando el InputField está activo
+        if (isCanvasActive && Input.GetKeyDown(KeyCode.Return)) // Return equivale a Enter
+        {
+            CheckCode();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.CompareTag("Player")) // Asegúrate de que el jugador tiene la etiqueta "Player"
         {
             isPlayerNearby = true;
-            if (MensajeTerminal != null)
+
+            // Mostrar el mensaje de interacción
+            if (interactionMessage != null)
             {
-                MensajeTerminal.SetActive(true);
+                interactionMessage.SetActive(true);
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject == player)
+        if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            if (MensajeTerminal != null)
+
+            // Ocultar el Canvas y el mensaje de interacción
+            if (interactionMessage != null)
             {
-                MensajeTerminal.SetActive(false);
+                interactionMessage.SetActive(false);
             }
 
-            if (codeInputUI != null)
+            if (terminalCanvas != null && isCanvasActive)
             {
-                codeInputUI.SetActive(false);
-                isCodeInputActive = false;
-            }
-
-            if (feedbackMessage != null)
-            {
-                feedbackMessage.gameObject.SetActive(false); // Ocultar retroalimentación
+                terminalCanvas.SetActive(false);
+                isCanvasActive = false;
             }
         }
     }
 
-    private void ShowCodeInputUI()
+    private void ToggleCanvas()
     {
-        if (codeInputUI != null)
+        if (terminalCanvas != null)
         {
-            codeInputUI.SetActive(true); 
-            if (codigo != null)
+            isCanvasActive = !isCanvasActive; // Cambiar el estado del Canvas
+            terminalCanvas.SetActive(isCanvasActive);
+
+            // Limpiar el campo de texto y mensajes al abrir el Canvas
+            if (isCanvasActive && codeInputField != null)
             {
-                codigo.text = ""; 
-                codigo.ActivateInputField(); 
+                codeInputField.text = "";
+                codeInputField.ActivateInputField();
             }
 
-            if (feedbackMessage != null)
-                feedbackMessage.gameObject.SetActive(false); // Ocultar retroalimentación previa
+            if (feedbackText != null)
+            {
+                feedbackText.text = "";
+            }
 
-            isCodeInputActive = true; 
+            // Ocultar el mensaje de interacción cuando se abra el Canvas
+            if (interactionMessage != null && isCanvasActive)
+            {
+                interactionMessage.SetActive(false);
+            }
         }
     }
 
-    public void SubmitCode(string enteredCode)
+    private void CheckCode()
     {
-        if (feedbackMessage != null)
-        {
-            feedbackMessage.gameObject.SetActive(true); // Mostrar mensaje de retroalimentación
+        if (codeInputField == null || feedbackText == null) return;
 
-            if (enteredCode == correctCode)
-            {
-                feedbackMessage.text = "Código correcto. Recompensa desbloqueada.";
-                Debug.Log("Recompensa desbloqueada.");
-            }
-            else
-            {
-                feedbackMessage.text = "Código incorrecto. Inténtalo de nuevo.";
-                Debug.Log("Código incorrecto.");
-            }
+        string enteredCode = codeInputField.text;
+
+        if (enteredCode == correctCode)
+        {
+            feedbackText.text = "Código correcto. ¡Acceso concedido!";
+            Debug.Log("Código correcto.");
         }
-
-        if (codeInputUI != null)
+        else
         {
-            codeInputUI.SetActive(false);
-            isCodeInputActive = false; 
+            feedbackText.text = "Código incorrecto. Inténtalo de nuevo.";
+            Debug.Log("Código incorrecto.");
         }
     }
 }
