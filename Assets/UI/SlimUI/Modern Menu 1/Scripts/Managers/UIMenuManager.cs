@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 namespace SlimUI.ModernMenu
 {
     public class UIMenuManager : MonoBehaviour
@@ -172,44 +173,66 @@ namespace SlimUI.ModernMenu
 
             StartCoroutine(LoadScenesAsynchronously(sceneList));
         }
-
         IEnumerator LoadScenesAsynchronously(List<string> sceneNames)
         {
             mainCanvas.SetActive(false);
             loadingMenu.SetActive(true);
 
+            List<AsyncOperation> operations = new List<AsyncOperation>();
+
             foreach (string sceneName in sceneNames)
             {
                 AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
                 operation.allowSceneActivation = false;
-
-                while (!operation.isDone)
-                {
-                    float progress = Mathf.Clamp01(operation.progress / .95f);
-                    loadingBar.value = progress;
-
-                    if (operation.progress >= 0.9f && waitForInput)
-                    {
-                        loadPromptText.text = "Press " + userPromptKey.ToString().ToUpper() + " to continue";
-                        loadingBar.value = 1;
-
-                        if (Input.GetKeyDown(userPromptKey))
-                        {
-                            operation.allowSceneActivation = true;
-                        }
-                    }
-                    else if (operation.progress >= 0.9f && !waitForInput)
-                    {
-                        operation.allowSceneActivation = true;
-                    }
-
-                    yield return null;
-                }
+                operations.Add(operation);
+                Debug.Log("Loading scene: " + sceneName);
             }
 
+            bool allScenesLoaded = false;
+
+            while (!allScenesLoaded)
+            {
+                float totalProgress = operations.Sum(op => op.progress) / operations.Count;
+                loadingBar.value = Mathf.Clamp01(totalProgress / .9f);
+                Debug.Log("Total progress: " + totalProgress);
+
+                allScenesLoaded = operations.All(op => op.progress >= 0.9f);
+
+                yield return null;
+            }
+
+            Debug.Log("All scenes loaded.");
+            if (waitForInput)
+            {
+                loadPromptText.text = "Press " + userPromptKey.ToString().ToUpper() + " to continue";
+                loadingBar.value = 1;
+
+                Debug.Log("Waiting for user input...");
+
+                while (!Input.GetKeyDown(userPromptKey))
+                {
+                    yield return null;
+                }
+
+                Debug.Log("User input detected, continuing...");
+            }
+
+            foreach (var operation in operations)
+            {
+                operation.allowSceneActivation = true;
+            }
+
+            // Unload the current scene (menu scene)
+            Scene currentScene = SceneManager.GetActiveScene();
+            Debug.Log("Unloading current scene: " + currentScene.name);
+            SceneManager.UnloadSceneAsync(currentScene);
+
             loadingMenu.SetActive(false);
-            mainCanvas.SetActive(true);
+            Debug.Log("Loading menu deactivated.");
         }
+
+
+
 
         public void DisablePlayCampaign()
         {
@@ -341,7 +364,7 @@ namespace SlimUI.ModernMenu
         public void QuitGame()
         {
 #if UNITY_EDITOR
-				UnityEditor.EditorApplication.isPlaying = false;
+            UnityEditor.EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
@@ -380,3 +403,5 @@ namespace SlimUI.ModernMenu
         }
     }
 }
+
+
