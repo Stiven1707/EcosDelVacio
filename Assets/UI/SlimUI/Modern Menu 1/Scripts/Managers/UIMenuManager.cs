@@ -173,13 +173,17 @@ namespace SlimUI.ModernMenu
 
             StartCoroutine(LoadScenesAsynchronously(sceneList));
         }
+
         IEnumerator LoadScenesAsynchronously(List<string> sceneNames)
         {
+            string currentScene = SceneManager.GetActiveScene().name;
+
             mainCanvas.SetActive(false);
             loadingMenu.SetActive(true);
 
             List<AsyncOperation> operations = new List<AsyncOperation>();
 
+            // Carga las escenas en modo aditivo
             foreach (string sceneName in sceneNames)
             {
                 AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -193,7 +197,7 @@ namespace SlimUI.ModernMenu
             while (!allScenesLoaded)
             {
                 float totalProgress = operations.Sum(op => op.progress) / operations.Count;
-                loadingBar.value = Mathf.Clamp01(totalProgress / .9f);
+                loadingBar.value = Mathf.Clamp01(totalProgress / 0.9f);
                 Debug.Log("Total progress: " + totalProgress);
 
                 allScenesLoaded = operations.All(op => op.progress >= 0.9f);
@@ -217,19 +221,44 @@ namespace SlimUI.ModernMenu
                 Debug.Log("User input detected, continuing...");
             }
 
+            // Activa las nuevas escenas
             foreach (var operation in operations)
             {
                 operation.allowSceneActivation = true;
             }
 
-            // Unload the current scene (menu scene)
-            Scene currentScene = SceneManager.GetActiveScene();
-            Debug.Log("Unloading current scene: " + currentScene.name);
-            SceneManager.UnloadSceneAsync(currentScene);
+            // Espera a que las escenas se activen completamente
+            yield return new WaitForSeconds(1f);
 
+            // Cambia la escena activa, verificando que esté cargada
+            Scene newActiveScene = SceneManager.GetSceneByName(sceneNames[0]);
+            if (newActiveScene.IsValid() && newActiveScene.isLoaded)
+            {
+                SceneManager.SetActiveScene(newActiveScene);
+                Debug.Log("Active scene set to: " + sceneNames[0]);
+            }
+            else
+            {
+                Debug.LogError("Scene " + sceneNames[0] + " is not loaded or valid.");
+            }
+
+            // Descarga la escena anterior
+            if (!string.IsNullOrEmpty(currentScene))
+            {
+                Debug.Log("Unloading previous scene: " + currentScene);
+                AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(currentScene);
+                while (!unloadOperation.isDone)
+                {
+                    yield return null;
+                }
+                Debug.Log("Previous scene unloaded: " + currentScene);
+            }
+
+            // Desactiva el menú de carga
             loadingMenu.SetActive(false);
             Debug.Log("Loading menu deactivated.");
         }
+
 
 
 
