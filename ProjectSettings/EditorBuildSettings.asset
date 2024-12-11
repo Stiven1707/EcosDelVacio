@@ -23,6 +23,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/edwinespj.unity
     guid: 44a1df43919d83d49b154fa58e93108e
+  - enabled: 1
+    path: Assets/Scenes/shigidio.unity
+    guid: 90868d517ba3222498ee340aa5a1b9f6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
