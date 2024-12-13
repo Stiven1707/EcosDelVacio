@@ -12,6 +12,13 @@ namespace SlimUI.ModernMenu
     public class UIMenuManager : MonoBehaviour
     {
         private Animator CameraObject;
+        private bool isPaused = false;
+        // un get set para saber si el juego esta pausado
+        public bool IsPaused
+        {
+            get { return isPaused; }
+            set { isPaused = value; }
+        }
 
         // campaign button sub menu
         [Header("MENUS")]
@@ -261,7 +268,7 @@ namespace SlimUI.ModernMenu
 
 
 
-
+        
 
         public void DisablePlayCampaign()
         {
