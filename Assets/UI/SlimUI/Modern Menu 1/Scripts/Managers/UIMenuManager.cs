@@ -190,6 +190,27 @@ namespace SlimUI.ModernMenu
 
             List<AsyncOperation> operations = new List<AsyncOperation>();
 
+            //algunas de las ecsenas a cargar ya esta caragada? cuales?
+            List<string> loadedScenes = new List<string>();
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (sceneNames.Contains(scene.name))
+                {
+                    loadedScenes.Add(scene.name);
+                }
+            }
+            //las escenas que ya estan cargadas se descargan y se cargan de nuevo
+            foreach (string sceneName in loadedScenes)
+            {
+                AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneName);
+                while (!unloadOperation.isDone)
+                {
+                    yield return null;
+                }
+                Debug.Log("Scene unloaded: " + sceneName);
+            }
+
             // Carga las escenas en modo aditivo
             foreach (string sceneName in sceneNames)
             {
@@ -402,6 +423,7 @@ namespace SlimUI.ModernMenu
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
+        
             Application.Quit();
 #endif
         }

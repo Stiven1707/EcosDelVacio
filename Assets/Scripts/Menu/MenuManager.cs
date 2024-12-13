@@ -16,7 +16,7 @@ public class MenuManager : MonoBehaviour
         }
 
         // Activar el botón si el juego está pausado
-        if (PlayerPrefs.GetInt("IsGamePaused", 0) == 1)
+        if (IsJuegoSceneLoaded())
         {
             if (btnContinue != null)
             {
@@ -44,5 +44,17 @@ public class MenuManager : MonoBehaviour
 
         // Reanudar el tiempo del juego
         FindObjectOfType<GameManager>().ResumeGame();
+    }
+    private bool IsJuegoSceneLoaded()
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == "edwinespj")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
