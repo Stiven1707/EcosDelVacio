@@ -1,4 +1,9 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine.UI;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -20,6 +25,7 @@ public class GameManager : MonoBehaviour
         }
         if (IsMenuSceneLoaded() && IsEdwinespjSceneLoaded())
         {
+            
             GameObject astronautIdle = GameObject.Find("AstronautIdle");
             if (astronautIdle != null)
             {
@@ -141,7 +147,7 @@ public class GameManager : MonoBehaviour
         //Time.timeScale = 0f;
 
         // Cargar la escena del menú de manera aditiva
-        SceneManager.LoadScene("Demo1", LoadSceneMode.Additive);
+        StartCoroutine(LoadAndSetActiveScene("Demo1"));
     }
 
     public void ResumeGame()
@@ -167,6 +173,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("IsGamePaused", 0);
             PlayerPrefs.Save();
         }
+        SetActiveScene("edwinespj");
     }
 
     private bool IsMenuSceneLoaded()
@@ -194,6 +201,32 @@ public class GameManager : MonoBehaviour
             }
         }
         return false;
+    }
+    private IEnumerator LoadAndSetActiveScene(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+
+        // Esperar a que la escena se cargue completamente
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        // Establecer la escena como activa
+        SetActiveScene(sceneName);
+    }
+    private void SetActiveScene(string sceneName)
+    {
+        Scene newActiveScene = SceneManager.GetSceneByName(sceneName);
+        if (newActiveScene.IsValid() && newActiveScene.isLoaded)
+        {
+            SceneManager.SetActiveScene(newActiveScene);
+            Debug.Log("Active scene set to: " + sceneName);
+        }
+        else
+        {
+            Debug.LogError("Scene " + sceneName + " is not loaded or valid.");
+        }
     }
 }
 
