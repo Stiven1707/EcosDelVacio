@@ -51,7 +51,26 @@ namespace cherrydev
         {
             HandleSentenceSkipping();
         }
+        private Coroutine dialogCoroutine;
 
+        // Método para pausar el diálogo
+        public void PauseDialog()
+        {
+            if (dialogCoroutine != null)
+            {
+                StopCoroutine(dialogCoroutine);
+                dialogCoroutine = null;
+            }
+        }
+
+        // Método para reanudar el diálogo
+        public void ResumeDialog()
+        {
+            if (currentNode != null)
+            {
+                HandleDialogGraphCurrentNode(currentNode);
+            }
+        }
         /// <summary>
         /// Setting dialogCharDelay float parameter
         /// </summary>
@@ -160,7 +179,7 @@ namespace cherrydev
                 ExternalFunctionsHandler.CallExternalFunction(sentenceNode.GetExternalFunctionName());
             }
 
-            WriteDialogText(sentenceNode.GetSentenceText());
+            dialogCoroutine = StartCoroutine(WriteDialogTextRoutine(sentenceNode.GetSentenceText()));
         }
 
         /// <summary>

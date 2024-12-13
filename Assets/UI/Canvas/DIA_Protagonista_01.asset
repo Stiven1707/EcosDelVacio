@@ -16,8 +16,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 656
-    y: 170.40001
+    x: 500.80008
+    y: 148.8
     width: 190
     height: 135
   isDragging: 0
@@ -46,8 +46,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 328.80005
-    y: 136.00002
+    x: 173.60004
+    y: 114.40001
     width: 190
     height: 135
   isDragging: 0
@@ -94,8 +94,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 34.400024
-    y: 113.600006
+    x: -120.79999
+    y: 92
     width: 190
     height: 135
   isDragging: 0

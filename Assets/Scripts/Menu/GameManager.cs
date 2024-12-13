@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;  
 
 public class GameManager : MonoBehaviour
 {
     private bool isGamePaused = false;
-
+    public bool IsGamePaused()
+    {
+        return isGamePaused;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -176,7 +179,7 @@ public class GameManager : MonoBehaviour
         SetActiveScene("edwinespj");
     }
 
-    private bool IsMenuSceneLoaded()
+    public bool IsMenuSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -190,7 +193,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Quiero saber cuando la escena edwinespj esté cargada
-    private bool IsEdwinespjSceneLoaded()
+    public bool IsEdwinespjSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {

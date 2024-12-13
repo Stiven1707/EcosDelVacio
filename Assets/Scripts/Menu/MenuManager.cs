@@ -45,7 +45,7 @@ public class MenuManager : MonoBehaviour
         // Reanudar el tiempo del juego
         FindObjectOfType<GameManager>().ResumeGame();
     }
-    private bool IsJuegoSceneLoaded()
+    public bool IsJuegoSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
