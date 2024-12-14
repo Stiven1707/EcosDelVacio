@@ -14,6 +14,14 @@ public class GameManager : MonoBehaviour
     private bool wasCanvasMActive = false;
     private bool wasCanvasActive = false;
 
+    [Header("Pantalla de Transición")]
+    public GameObject transitionScreen; // Pantalla de transición
+    public TMP_Text transitionText; // Texto de la pantalla de transición
+
+    // Nombres de las escenas
+    private string menuSceneName = "Demo1";
+    private string gameSceneName = "edwinespj";
+
     public bool IsGamePaused()
     {
         return isGamePaused;
@@ -33,6 +41,72 @@ public class GameManager : MonoBehaviour
         else
         {
             HandleEdwinespjScene(true);
+        }
+        // Verificar si el personaje ha muerto
+        CheckForDeath();
+    }
+
+    private void CheckForDeath()
+    {
+        // Obtener la referencia al SliderOxygenBar
+        SliderOxygenBar oxygenBar = FindObjectOfType<SliderOxygenBar>();
+        if (oxygenBar != null && oxygenBar.IsDead)
+        {
+            ShowDeathScreen();
+        }
+        //Prueba Input.GetKeyDown(KeyCode. oprimir M para mostrar pantalla de muerte
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            ShowDeathScreen();
+        }
+    }
+
+    private void ShowDeathScreen()
+    {
+        if (transitionScreen != null && transitionText != null)
+        {
+            transitionText.text = "¡Has muerto!";
+            transitionScreen.SetActive(true);
+        }
+        SetPlayerMovement(false);
+        SetCameraAudio(false);
+        SetPodAudio(false);
+
+        // Iniciar la transición a la escena del menú principal
+        StartCoroutine(LoadMenuScene(menuSceneName));
+    }
+
+    private IEnumerator LoadMenuScene(string sceneName)
+    {
+        // Activar la pantalla de transición
+        if (transitionScreen != null)
+        {
+            transitionScreen.SetActive(true);
+        }
+
+        // Iniciar la carga de la escena
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // Desactivar la activación automática de la escena
+        asyncLoad.allowSceneActivation = false;
+
+        // Actualizar la barra de carga
+        while (!asyncLoad.isDone)
+        {
+            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            yield return null;
+
+            // Activar la escena cuando esté completamente cargada
+            if (asyncLoad.progress >= 0.9f)
+            {
+                asyncLoad.allowSceneActivation = true;
+            }
+        }
+
+        // Desactivar la pantalla de transición
+        if (transitionScreen != null)
+        {
+            transitionScreen.SetActive(false);
         }
     }
 
@@ -68,10 +142,10 @@ public class GameManager : MonoBehaviour
 
     private void SetCameraAudio(bool enable)
     {
-        Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
-        if (edwinespjScene.IsValid())
+        Scene gameScene = SceneManager.GetSceneByName(gameSceneName);
+        if (gameScene.IsValid())
         {
-            foreach (GameObject obj in edwinespjScene.GetRootGameObjects())
+            foreach (GameObject obj in gameScene.GetRootGameObjects())
             {
                 Camera camera = obj.GetComponentInChildren<Camera>();
                 if (camera != null)
@@ -89,10 +163,10 @@ public class GameManager : MonoBehaviour
 
     private void SetCanvasAndOxygenBar(bool enable)
     {
-        Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
-        if (edwinespjScene.IsValid())
+        Scene gameScene = SceneManager.GetSceneByName(gameSceneName);
+        if (gameScene.IsValid())
         {
-            foreach (GameObject obj in edwinespjScene.GetRootGameObjects())
+            foreach (GameObject obj in gameScene.GetRootGameObjects())
             {
                 Canvas canvas = obj.GetComponentInChildren<Canvas>();
                 if (canvas != null)
@@ -170,7 +244,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     private void SetBioMonitor(bool enable)
     {
         GameObject bioMonitor = GameObject.Find("BioMonitor Red");
@@ -214,9 +287,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-
-
     public void PauseGame()
     {
         isGamePaused = true;
@@ -224,7 +294,7 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("IsGamePaused", 1);
         PlayerPrefs.Save();
 
-        StartCoroutine(LoadAndSetActiveScene("Demo1"));
+        StartCoroutine(LoadAndSetActiveScene(menuSceneName));
     }
 
     public void ResumeGame()
@@ -233,7 +303,7 @@ public class GameManager : MonoBehaviour
 
         if (IsMenuSceneLoaded())
         {
-            SceneManager.UnloadSceneAsync("Demo1").completed += (AsyncOperation op) =>
+            SceneManager.UnloadSceneAsync(menuSceneName).completed += (AsyncOperation op) =>
             {
                 PlayerPrefs.SetInt("IsGamePaused", 0);
                 PlayerPrefs.Save();
@@ -244,7 +314,7 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("IsGamePaused", 0);
             PlayerPrefs.Save();
         }
-        SetActiveScene("edwinespj");
+        SetActiveScene(gameSceneName);
     }
 
     public bool IsMenuSceneLoaded()
@@ -252,7 +322,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name == "Demo1")
+            if (scene.name == menuSceneName)
             {
                 return true;
             }
@@ -265,7 +335,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
             Scene scene = SceneManager.GetSceneAt(i);
-            if (scene.name == "edwinespj")
+            if (scene.name == gameSceneName)
             {
                 return true;
             }
@@ -299,6 +369,3 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-
-
-
