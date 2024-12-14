@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private bool isGamePaused = false;
+    private bool wasPodAudioPlaying = false;
 
     public bool IsGamePaused()
     {
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
         SetPlayerMovement(enable);
         SetCameraAudio(enable);
         SetCanvasAndOxygenBar(enable);
+        SetPodAudio(enable);
     }
 
     private void SetPlayerMovement(bool enable)
@@ -107,6 +109,45 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    private void SetPodAudio(bool enable)
+    {
+        GameObject pod = GameObject.Find("Pod_001 (6)");
+        Debug.Log("Pod encontrado: " + pod);
+        if (pod != null)
+        {
+            AudioSource audioSource = pod.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                Debug.Log("Audio source encontrado: " + audioSource.name);
+                if (!enable)
+                {
+                    wasPodAudioPlaying = audioSource.isPlaying;
+                    if (wasPodAudioPlaying)
+                    {
+                        audioSource.Pause();
+                        Debug.Log("Pod audio pausado.");
+                    }
+                }
+                else if (wasPodAudioPlaying)
+                {
+                    audioSource.Play();
+                    Debug.Log("Pod audio reanudado.");
+                }
+            }
+
+            PlayAudioOnKeyPress playAudioScript = pod.GetComponent<PlayAudioOnKeyPress>();
+            if (playAudioScript != null)
+            {
+                playAudioScript.enabled = enable;
+                Debug.Log("PlayAudioOnKeyPress " + (enable ? "habilitado" : "deshabilitado") + ".");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Pod no encontrado.");
         }
     }
 
@@ -192,3 +233,6 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
+
+
