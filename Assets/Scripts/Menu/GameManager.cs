@@ -137,6 +137,12 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Pod audio reanudado.");
                 }
             }
+            GameObject CanvasC = pod.transform.Find("CanvasC")?.gameObject;
+            if (CanvasC != null)
+            {
+                CanvasC.SetActive(enable);
+                Debug.Log("Texto interactivo " + (enable ? "habilitado" : "deshabilitado") + ".");
+            }
 
             PlayAudioOnKeyPress playAudioScript = pod.GetComponent<PlayAudioOnKeyPress>();
             if (playAudioScript != null)
