@@ -345,7 +345,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitionScreen: {fileID: 1348313962}
-  transitionText: {fileID: 2064418279}
+  transitionText: {fileID: 691923727}
+  loadingBar: {fileID: 1224490646}
+  loadPromptText: {fileID: 2064418279}
+  userPromptKey: 13
+  deathMessage: Game Over...
+  victoryMessage: "\xA1You Win! - Chapter 1 Completed"
 --- !u!1 &502915297
 GameObject:
   m_ObjectHideFlags: 0

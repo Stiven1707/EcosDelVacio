@@ -30,7 +30,7 @@ public class DialogoInicio : MonoBehaviour
         if (dialogFinished) return;
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsEdwinespjSceneLoaded())
+        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
         {
             dialogBehaviour.PauseDialog();
             dialogBehaviour.gameObject.SetActive(false);
@@ -45,7 +45,7 @@ public class DialogoInicio : MonoBehaviour
     private bool CheckUserReady()
     {
         GameManager gameManager = FindObjectOfType<GameManager>();
-        return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsEdwinespjSceneLoaded();
+        return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded();
     }
 
     private void DebugExternal()

@@ -15,7 +15,7 @@ public class DiagoloCapsula : MonoBehaviour
 
     public IEnumerator Start()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.01f);
         if (CheckAudioReady())
         {
             dialogBehaviour.BindExternalFunction("Test", DebugExternal);
@@ -34,7 +34,7 @@ public class DiagoloCapsula : MonoBehaviour
         if (dialogFinished) return;
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsEdwinespjSceneLoaded())
+        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
         {
             dialogBehaviour.PauseDialog();
             dialogBehaviour.gameObject.SetActive(false);
@@ -49,7 +49,7 @@ public class DiagoloCapsula : MonoBehaviour
     private bool CheckAudioReady()
     {
         GameManager gameManager = FindObjectOfType<GameManager>();
-        return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsEdwinespjSceneLoaded();
+        return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded();
 
         //TODO cuando empezar
 

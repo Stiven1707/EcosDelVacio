@@ -13,10 +13,17 @@ public class GameManager : MonoBehaviour
     private bool wasCanvasCActive = false;
     private bool wasCanvasMActive = false;
     private bool wasCanvasActive = false;
+    private bool isDeathScreenShown = false; // Variable de estado para la pantalla de muerte
 
     [Header("Pantalla de Transición")]
     public GameObject transitionScreen; // Pantalla de transición
     public TMP_Text transitionText; // Texto de la pantalla de transición
+    public Slider loadingBar; // Barra de carga
+    public TMP_Text loadPromptText; // Texto de la pantalla de carga
+    public KeyCode userPromptKey = KeyCode.Return; // Tecla para continuar
+    public string deathMessage = "Game Over..."; // Mensaje de muerte
+    // Mensaje de victoria
+    public string victoryMessage = "¡You Win! - Chapter 1 Completed";
 
     // Nombres de las escenas
     private string menuSceneName = "Demo1";
@@ -34,13 +41,13 @@ public class GameManager : MonoBehaviour
             TogglePause();
         }
 
-        if (IsMenuSceneLoaded() && IsEdwinespjSceneLoaded())
+        if (IsMenuSceneLoaded() && IsGameSceneLoaded())
         {
-            HandleEdwinespjScene(false);
+            HandleGameScene(false);
         }
         else
         {
-            HandleEdwinespjScene(true);
+            HandleGameScene(true);
         }
         // Verificar si el personaje ha muerto
         CheckForDeath();
@@ -50,12 +57,12 @@ public class GameManager : MonoBehaviour
     {
         // Obtener la referencia al SliderOxygenBar
         SliderOxygenBar oxygenBar = FindObjectOfType<SliderOxygenBar>();
-        if (oxygenBar != null && oxygenBar.IsDead)
+        if (oxygenBar != null && oxygenBar.IsDead && !isDeathScreenShown)
         {
             ShowDeathScreen();
         }
         //Prueba Input.GetKeyDown(KeyCode. oprimir M para mostrar pantalla de muerte
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && !isDeathScreenShown)
         {
             ShowDeathScreen();
         }
@@ -63,9 +70,11 @@ public class GameManager : MonoBehaviour
 
     private void ShowDeathScreen()
     {
+        isDeathScreenShown = true; // Marcar que la pantalla de muerte se ha mostrado
+
         if (transitionScreen != null && transitionText != null)
         {
-            transitionText.text = "¡Has muerto!";
+            transitionText.text = deathMessage;
             transitionScreen.SetActive(true);
         }
         SetPlayerMovement(false);
@@ -94,13 +103,29 @@ public class GameManager : MonoBehaviour
         while (!asyncLoad.isDone)
         {
             float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
-            yield return null;
+            if (loadingBar != null)
+            {
+                loadingBar.value = progress;
+            }
 
-            // Activar la escena cuando esté completamente cargada
+            // Mostrar el mensaje de espera
             if (asyncLoad.progress >= 0.9f)
             {
+                if (loadPromptText != null)
+                {
+                    loadPromptText.text = "Presiona " + userPromptKey.ToString().ToUpper() + " para continuar";
+                }
+
+                // Esperar la entrada del usuario
+                while (!Input.GetKeyDown(userPromptKey))
+                {
+                    yield return null;
+                }
+
                 asyncLoad.allowSceneActivation = true;
             }
+
+            yield return null;
         }
 
         // Desactivar la pantalla de transición
@@ -122,7 +147,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void HandleEdwinespjScene(bool enable)
+    private void HandleGameScene(bool enable)
     {
         SetPlayerMovement(enable);
         SetCameraAudio(enable);
@@ -330,7 +355,7 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public bool IsEdwinespjSceneLoaded()
+    public bool IsGameSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
         {
@@ -369,3 +394,4 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
