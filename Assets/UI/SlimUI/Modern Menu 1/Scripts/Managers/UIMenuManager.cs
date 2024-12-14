@@ -12,6 +12,13 @@ namespace SlimUI.ModernMenu
     public class UIMenuManager : MonoBehaviour
     {
         private Animator CameraObject;
+        private bool isPaused = false;
+        // un get set para saber si el juego esta pausado
+        public bool IsPaused
+        {
+            get { return isPaused; }
+            set { isPaused = value; }
+        }
 
         // campaign button sub menu
         [Header("MENUS")]
@@ -173,7 +180,6 @@ namespace SlimUI.ModernMenu
 
             StartCoroutine(LoadScenesAsynchronously(sceneList));
         }
-
         IEnumerator LoadScenesAsynchronously(List<string> sceneNames)
         {
             string currentScene = SceneManager.GetActiveScene().name;
@@ -181,14 +187,36 @@ namespace SlimUI.ModernMenu
             mainCanvas.SetActive(false);
             loadingMenu.SetActive(true);
 
-            List<AsyncOperation> operations = new List<AsyncOperation>();
+            // Descarga todas las escenas activas excepto la actual
+            List<AsyncOperation> unloadOperations = new List<AsyncOperation>();
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+            {
+                Scene scene = SceneManager.GetSceneAt(i);
+                if (scene.name != currentScene && scene.isLoaded)
+                {
+                    AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(scene);
+                    unloadOperations.Add(unloadOperation);
+                    Debug.Log("Unloading scene: " + scene.name);
+                }
+            }
 
-            // Carga las escenas en modo aditivo
+            // Espera a que todas las escenas se descarguen
+            foreach (var unloadOperation in unloadOperations)
+            {
+                while (!unloadOperation.isDone)
+                {
+                    yield return null;
+                }
+            }
+
+            List<AsyncOperation> loadOperations = new List<AsyncOperation>();
+
+            // Carga las nuevas escenas en modo aditivo
             foreach (string sceneName in sceneNames)
             {
-                AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
-                operation.allowSceneActivation = false;
-                operations.Add(operation);
+                AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+                loadOperation.allowSceneActivation = false;
+                loadOperations.Add(loadOperation);
                 Debug.Log("Loading scene: " + sceneName);
             }
 
@@ -196,11 +224,11 @@ namespace SlimUI.ModernMenu
 
             while (!allScenesLoaded)
             {
-                float totalProgress = operations.Sum(op => op.progress) / operations.Count;
+                float totalProgress = loadOperations.Sum(op => op.progress) / loadOperations.Count;
                 loadingBar.value = Mathf.Clamp01(totalProgress / 0.9f);
                 Debug.Log("Total progress: " + totalProgress);
 
-                allScenesLoaded = operations.All(op => op.progress >= 0.9f);
+                allScenesLoaded = loadOperations.All(op => op.progress >= 0.9f);
 
                 yield return null;
             }
@@ -222,9 +250,9 @@ namespace SlimUI.ModernMenu
             }
 
             // Activa las nuevas escenas
-            foreach (var operation in operations)
+            foreach (var loadOperation in loadOperations)
             {
-                operation.allowSceneActivation = true;
+                loadOperation.allowSceneActivation = true;
             }
 
             // Espera a que las escenas se activen completamente
@@ -395,6 +423,7 @@ namespace SlimUI.ModernMenu
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #else
+        
             Application.Quit();
 #endif
         }
