@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; // Importar el namespace de TextMeshPro
+using TMPro;
 
 public class SliderOxygenBar : MonoBehaviour
 {
@@ -61,6 +61,16 @@ public class SliderOxygenBar : MonoBehaviour
         {
             TriggerDeathAnimation();
         }
+
+        // Verificar si la animación "Die" ha terminado
+        if (isDead && playerAnimator != null)
+        {
+            AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0); // Estado actual en la capa 0
+            if (stateInfo.IsName("Die") && stateInfo.normalizedTime >= 1.0f)
+            {
+                OnDeathAnimationComplete(); // Llamar al método una vez que la animación termina
+            }
+        }
     }
 
     void UpdateOxygenText()
@@ -85,8 +95,15 @@ public class SliderOxygenBar : MonoBehaviour
             Debug.LogError("No se ha asignado el Animator en el script.");
         }
     }
+
+    void OnDeathAnimationComplete()
+    {
+        Debug.Log("La animación de muerte ha finalizado. Configurando estado final...");
+
+        // Desactivar el Animator para que el personaje quede quieto
+        playerAnimator.enabled = false;
+
+        // Mantener la posición actual del personaje (si la animación lo deja acostado)
+        // Si quieres ajustar manualmente la posición o rotación, hazlo aquí
+    }
 }
-
-
-
-
