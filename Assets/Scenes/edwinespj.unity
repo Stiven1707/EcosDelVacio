@@ -204,15 +204,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.01
+      value: 0.005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -400,6 +400,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!95 &407232203 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+  m_PrefabInstance: {fileID: 407232198}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &407232204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
@@ -630,9 +635,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxOxygen: 100
-  depletionRate: 1
+  depletionRate: 0.5
   oxygenSlider: {fileID: 689145373}
   oxygenText: {fileID: 1104121426}
+  playerAnimator: {fileID: 407232203}
 --- !u!1 &879710765
 GameObject:
   m_ObjectHideFlags: 0
@@ -783,7 +789,7 @@ GameObject:
   - component: {fileID: 916744911}
   - component: {fileID: 916744910}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ManagerOxygen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1021,7 +1027,7 @@ Transform:
   m_GameObject: {fileID: 1019589337}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.003652026, z: -0, w: 0.9999934}
-  m_LocalPosition: {x: -5, y: 138.3, z: -380.6}
+  m_LocalPosition: {x: -7, y: 99, z: -581}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1054,7 +1060,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1640,7 +1646,7 @@ Transform:
   m_GameObject: {fileID: 1842111508}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15, y: 151, z: -145.2}
+  m_LocalPosition: {x: -15, y: 151, z: -146}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

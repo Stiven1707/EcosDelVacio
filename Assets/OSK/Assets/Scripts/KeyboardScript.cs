@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +19,7 @@ public class KeyboardScript : MonoBehaviour
     // Método para abrir el teclado
     public void OpenKeyboard()
     {
-        gameObject.SetActive(true); // Reactiva el teclado
+        gameObject.SetActive(true); 
     }
 
     public void alphabetFunction(string alphabet)
@@ -52,7 +52,7 @@ public class KeyboardScript : MonoBehaviour
     {
         if (closeButton != null)
         {
-            closeButton.onClick.AddListener(CloseKeyboard); // Asocia el cierre del teclado al botón "X"
+            closeButton.onClick.AddListener(CloseKeyboard);
         }
 
         // Asocia el campo de texto para abrir el teclado cuando se selecciona
