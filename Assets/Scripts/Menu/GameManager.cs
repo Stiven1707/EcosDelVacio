@@ -4,135 +4,107 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;  
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     private bool isGamePaused = false;
+
     public bool IsGamePaused()
     {
         return isGamePaused;
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsMenuSceneLoaded())
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            TogglePause();
         }
+
         if (IsMenuSceneLoaded() && IsEdwinespjSceneLoaded())
         {
-            
-            GameObject astronautIdle = GameObject.Find("AstronautIdle");
-            if (astronautIdle != null)
-            {
-                astronautIdle.GetComponent<PlayerMovement>().enabled = false;
-            }
-
-            // Buscar las cámaras en la escena "edwinespj"
-            Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
-            if (edwinespjScene.IsValid())
-            {
-                GameObject[] rootObjects = edwinespjScene.GetRootGameObjects();
-                foreach (GameObject obj in rootObjects)
-                {
-                    Camera camera = obj.GetComponentInChildren<Camera>();
-                    if (camera != null)
-                    {
-                        AudioSource audioSource = camera.GetComponent<AudioSource>();
-                        if (audioSource != null)
-                        {
-                            audioSource.enabled = false;
-                            break; // Salir del bucle una vez que se encuentra la cámara correcta
-                        }
-                    }
-                }
-
-                // Buscar el canvas en la escena "edwinespj"
-                foreach (GameObject obj in rootObjects)
-                {
-                    Canvas canvas = obj.GetComponentInChildren<Canvas>();
-                    if (canvas != null)
-                    {
-                        canvas.enabled = false;
-
-                        // Buscar el OxygenBar dentro del Canvas
-                        Transform imaOxygenBar = canvas.transform.Find("ImaOxygenBar");
-                        if (imaOxygenBar != null)
-                        {
-                            GameObject oxygenBar = imaOxygenBar.Find("OxygenBar")?.gameObject;
-                            if (oxygenBar != null)
-                            {
-                                // Desactivar los componentes del OxygenBar
-                                foreach (var component in oxygenBar.GetComponents<MonoBehaviour>())
-                                {
-                                    component.enabled = false;
-                                }
-                            }
-                        }
-                        break; // Salir del bucle una vez que se encuentra el canvas
-                    }
-                }
-            }
+            HandleEdwinespjScene(false);
         }
         else
         {
-            // Dejar todo como estaba
-            GameObject astronautIdle = GameObject.Find("AstronautIdle");
-            if (astronautIdle != null)
-            {
-                astronautIdle.GetComponent<PlayerMovement>().enabled = true;
-            }
+            HandleEdwinespjScene(true);
+        }
+    }
 
-            // Buscar las cámaras en la escena "edwinespj"
-            Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
-            if (edwinespjScene.IsValid())
+    private void TogglePause()
+    {
+        if (IsMenuSceneLoaded())
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+
+    private void HandleEdwinespjScene(bool enable)
+    {
+        SetPlayerMovement(enable);
+        SetCameraAudio(enable);
+        SetCanvasAndOxygenBar(enable);
+    }
+
+    private void SetPlayerMovement(bool enable)
+    {
+        GameObject astronautIdle = GameObject.Find("AstronautIdle");
+        if (astronautIdle != null)
+        {
+            astronautIdle.GetComponent<PlayerMovement>().enabled = enable;
+        }
+    }
+
+    private void SetCameraAudio(bool enable)
+    {
+        Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
+        if (edwinespjScene.IsValid())
+        {
+            foreach (GameObject obj in edwinespjScene.GetRootGameObjects())
             {
-                GameObject[] rootObjects = edwinespjScene.GetRootGameObjects();
-                foreach (GameObject obj in rootObjects)
+                Camera camera = obj.GetComponentInChildren<Camera>();
+                if (camera != null)
                 {
-                    Camera camera = obj.GetComponentInChildren<Camera>();
-                    if (camera != null)
+                    AudioSource audioSource = camera.GetComponent<AudioSource>();
+                    if (audioSource != null)
                     {
-                        AudioSource audioSource = camera.GetComponent<AudioSource>();
-                        if (audioSource != null)
-                        {
-                            audioSource.enabled = true;
-                            break; // Salir del bucle una vez que se encuentra la cámara correcta
-                        }
+                        audioSource.enabled = enable;
+                        break;
                     }
                 }
+            }
+        }
+    }
 
-                // Buscar el canvas en la escena "edwinespj"
-                foreach (GameObject obj in rootObjects)
+    private void SetCanvasAndOxygenBar(bool enable)
+    {
+        Scene edwinespjScene = SceneManager.GetSceneByName("edwinespj");
+        if (edwinespjScene.IsValid())
+        {
+            foreach (GameObject obj in edwinespjScene.GetRootGameObjects())
+            {
+                Canvas canvas = obj.GetComponentInChildren<Canvas>();
+                if (canvas != null)
                 {
-                    Canvas canvas = obj.GetComponentInChildren<Canvas>();
-                    if (canvas != null)
+                    canvas.enabled = enable;
+                    Transform imaOxygenBar = canvas.transform.Find("ImaOxygenBar");
+                    if (imaOxygenBar != null)
                     {
-                        canvas.enabled = true;
-
-                        // Buscar el OxygenBar dentro del Canvas
-                        Transform imaOxygenBar = canvas.transform.Find("ImaOxygenBar");
-                        if (imaOxygenBar != null)
+                        GameObject oxygenBar = imaOxygenBar.Find("OxygenBar")?.gameObject;
+                        if (oxygenBar != null)
                         {
-                            GameObject oxygenBar = imaOxygenBar.Find("OxygenBar")?.gameObject;
-                            if (oxygenBar != null)
+                            foreach (var component in oxygenBar.GetComponents<MonoBehaviour>())
                             {
-                                // Activar los componentes del OxygenBar
-                                foreach (var component in oxygenBar.GetComponents<MonoBehaviour>())
-                                {
-                                    component.enabled = true;
-                                }
+                                component.enabled = enable;
                             }
                         }
-                        break; // Salir del bucle una vez que se encuentra el canvas
                     }
+                    break;
                 }
             }
         }
@@ -142,14 +114,9 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = true;
 
-        // Guardar el estado del juego
         PlayerPrefs.SetInt("IsGamePaused", 1);
         PlayerPrefs.Save();
 
-        // Pausar el tiempo del juego
-        //Time.timeScale = 0f;
-
-        // Cargar la escena del menú de manera aditiva
         StartCoroutine(LoadAndSetActiveScene("Demo1"));
     }
 
@@ -157,22 +124,16 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = false;
 
-        // Reanudar el tiempo del juego
-        //Time.timeScale = 1f;
-
-        // Descargar la escena del menú solo si está cargada
         if (IsMenuSceneLoaded())
         {
             SceneManager.UnloadSceneAsync("Demo1").completed += (AsyncOperation op) =>
             {
-                // Guardar el estado del juego
                 PlayerPrefs.SetInt("IsGamePaused", 0);
                 PlayerPrefs.Save();
             };
         }
         else
         {
-            // Guardar el estado del juego
             PlayerPrefs.SetInt("IsGamePaused", 0);
             PlayerPrefs.Save();
         }
@@ -192,7 +153,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    // Quiero saber cuando la escena edwinespj esté cargada
     public bool IsEdwinespjSceneLoaded()
     {
         for (int i = 0; i < SceneManager.sceneCount; i++)
@@ -205,19 +165,19 @@ public class GameManager : MonoBehaviour
         }
         return false;
     }
+
     private IEnumerator LoadAndSetActiveScene(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 
-        // Esperar a que la escena se cargue completamente
         while (!asyncLoad.isDone)
         {
             yield return null;
         }
 
-        // Establecer la escena como activa
         SetActiveScene(sceneName);
     }
+
     private void SetActiveScene(string sceneName)
     {
         Scene newActiveScene = SceneManager.GetSceneByName(sceneName);
@@ -232,4 +192,3 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-
