@@ -13,15 +13,20 @@ public class DiagoloCapsula : MonoBehaviour
 
     private bool dialogFinished = false;
 
-    private IEnumerator Start()
+    public IEnumerator Start()
     {
         yield return new WaitForSeconds(2);
-        if (CheckUserReady())
+        if (CheckAudioReady())
         {
             dialogBehaviour.BindExternalFunction("Test", DebugExternal);
             dialogBehaviour.StartDialog(dialogGraph);
             dialogBehaviour.AddListenerToDialogFinishedEvent(OnDialogFinished);
         }
+    }
+
+    public void inicio()
+    {
+        Start();
     }
 
     private void Update()
@@ -41,10 +46,13 @@ public class DiagoloCapsula : MonoBehaviour
         }
     }
 
-    private bool CheckUserReady()
+    private bool CheckAudioReady()
     {
         GameManager gameManager = FindObjectOfType<GameManager>();
         return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsEdwinespjSceneLoaded();
+
+        //TODO cuando empezar
+
     }
 
     private void DebugExternal()

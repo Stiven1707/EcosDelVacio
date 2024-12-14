@@ -6,11 +6,13 @@ public class PlayAudioOnKeyPress : MonoBehaviour
     public GameObject interactionMessageCanvas; // Mensaje de interacción
     private AudioSource audioSource; // Fuente de audio
     private bool isPlayerNearby = false; // Indica si el jugador está cerca
+    public GameObject dialogoCapsula;
 
     private void Start()
     {
         // Agregar un componente AudioSource si no existe
         audioSource = GetComponent<AudioSource>();
+        
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -57,6 +59,7 @@ public class PlayAudioOnKeyPress : MonoBehaviour
             // Reiniciar el audio desde el principio con la tecla A
             if (Input.GetKeyDown(KeyCode.C))
             {
+                dialogoCapsula.SetActive(true);
                 audioSource.Stop();
                 audioSource.Play();
             }
@@ -65,11 +68,11 @@ public class PlayAudioOnKeyPress : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        DiagoloCapsula dialogo = FindObjectOfType<DiagoloCapsula>();
         if (other.CompareTag("Player")) // Asegúrate de que el jugador tiene la etiqueta "Player"
         {
             isPlayerNearby = true;
 
-            // Mostrar el mensaje de interacción
             if (interactionMessageCanvas != null)
             {
                 interactionMessageCanvas.SetActive(true);
