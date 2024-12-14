@@ -254,10 +254,54 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6709288533808664266, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_Quality
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_AABB.m_Center.x
+      value: -1.0699158
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 17.633137
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_AABB.m_Center.z
+      value: 22.465958
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 61.23486
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6542367647312899303, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: fb58f9715bbe08c46bcd99097b76528d, type: 2}
+    - target: {fileID: -4756669395931958932, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 131.1
+      objectReference: {fileID: 0}
     - target: {fileID: -3583744188350213854, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -289,7 +333,7 @@ PrefabInstance:
     - target: {fileID: 3963402223654402711, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: e461af2fad04ece44b40f5ca863afc84, type: 2}
+      objectReference: {fileID: 2100000, guid: 67b30ef45ebfc8746b044db0dd22eb90, type: 2}
     - target: {fileID: 5866666021909216657, guid: 2b8947ec99aa3194c9be7abced9f197e, type: 3}
       propertyPath: m_Controller
       value: 
@@ -635,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxOxygen: 100
-  depletionRate: 5
+  depletionRate: 0.5
   oxygenSlider: {fileID: 689145373}
   oxygenText: {fileID: 1104121426}
   playerAnimator: {fileID: 407232203}
