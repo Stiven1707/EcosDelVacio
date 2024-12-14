@@ -2,167 +2,207 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-//	This script handles automatic opening and closing sliding doors
-//	It is fired by triggers and the door closes if found no character in the trigger area
-
-
-//	Door status
+// Door status
 public enum DoubleSlidingDoorStatus {
-	Closed,
-	Open,
-	Animating
+    Closed,
+    Open,
+    Animating
 }
 
 [RequireComponent(typeof(AudioSource))]
-public class DoubleSlidingDoorController : MonoBehaviour {
+public class DoubleSlidingDoorController : MonoBehaviour
+{
+    private DoubleSlidingDoorStatus status = DoubleSlidingDoorStatus.Closed;
 
-	private DoubleSlidingDoorStatus status = DoubleSlidingDoorStatus.Closed;
+    [SerializeField]
+    private Transform halfDoorLeftTransform;    // Left panel of the sliding door
+    [SerializeField]
+    public Transform halfDoorRightTransform;   // Right panel of the sliding door
 
-	[SerializeField]
-	private Transform halfDoorLeftTransform;	//	Left panel of the sliding door
-	[SerializeField]
-	public Transform halfDoorRightTransform;	//	Right panel of the sliding door
+    [SerializeField]
+    private float slideDistance = 0.88f;       // Sliding distance to open each panel the door
 
-	[SerializeField]
-	private float slideDistance	= 0.88f;		//	Sliding distance to open each panel the door
+    private Vector3 leftDoorClosedPosition;
+    private Vector3 leftDoorOpenPosition;
 
-	private Vector3 leftDoorClosedPosition;
-	private Vector3 leftDoorOpenPosition;
+    private Vector3 rightDoorClosedPosition;
+    private Vector3 rightDoorOpenPosition;
 
-	private Vector3 rightDoorClosedPosition;
-	private Vector3 rightDoorOpenPosition;
+    [SerializeField]
+    private float speed = 1f;                  // Speed for opening and closing the door
 
-	[SerializeField]
-	private float speed = 1f;					//	Spped for opening and closing the door
+    private int objectsOnDoorArea = 0;
 
-	private int objectsOnDoorArea	= 0;
+    private bool isLocked = true;            // New field to control if the door is locked
+
+    // Sound Fx
+    [SerializeField]
+    private AudioClip doorOpeningSoundClip;
+    [SerializeField]
+    public AudioClip doorClosingSoundClip;
+
+    private AudioSource audioSource;
+
+    private bool isAnimationInProgress = false; // Variable to check if an animation is in progress
+
+    void Start()
+    {
+        leftDoorClosedPosition = new Vector3(0f, 0f, 0f);
+        leftDoorOpenPosition = new Vector3(0f, 0f, slideDistance);
+
+        rightDoorClosedPosition = new Vector3(0f, 0f, 0f);
+        rightDoorOpenPosition = new Vector3(0f, 0f, -slideDistance);
+
+        audioSource = GetComponent<AudioSource>();
+        isLocked = true;
+    }
+
+    void Update()
+    {
+        if (status != DoubleSlidingDoorStatus.Animating && !isLocked)
+        {
+            if (status == DoubleSlidingDoorStatus.Open && objectsOnDoorArea == 0)
+            {
+                StartCoroutine("CloseDoors");
+            }
+        }
+        Debug.Log("Estado de la puerta (isLocked): " + isLocked);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (isLocked) return; // Do nothing if the door is locked
+
+        if (status != DoubleSlidingDoorStatus.Animating)
+        {
+            if (status == DoubleSlidingDoorStatus.Closed)
+            {
+                StartCoroutine("OpenDoors");
+            }
+        }
+
+        if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer("Characters"))
+        {
+            objectsOnDoorArea++;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (isLocked) return; // Do nothing if the door is locked
+
+        if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer("Characters"))
+        {
+            objectsOnDoorArea--;
+        }
+    }
+
+    IEnumerator OpenDoors()
+    {
+        isLocked=false;
+        // Verifica primero si la puerta está bloqueada
+        if (isAnimationInProgress || isLocked) 
+        {
+            // Opcional: puedes agregar un sonido de puerta bloqueada aquí
+            yield break; // No hacer nada si la puerta está bloqueada o si ya hay una animación
+        }
+        isAnimationInProgress = true; // Marca que la animación está en progreso
+
+        if (doorOpeningSoundClip != null)
+        {
+            audioSource.PlayOneShot(doorOpeningSoundClip, 0.7F);
+        }
+
+        status = DoubleSlidingDoorStatus.Animating;
+
+        float t = 0f;
+
+        while (t < 1f)
+        {
+            t += Time.deltaTime * speed;
+
+            halfDoorLeftTransform.localPosition = Vector3.Slerp(leftDoorClosedPosition, leftDoorOpenPosition, t);
+            halfDoorRightTransform.localPosition = Vector3.Slerp(rightDoorClosedPosition, rightDoorOpenPosition, t);
+
+            yield return null;
+        }
+
+        status = DoubleSlidingDoorStatus.Open;
+        isAnimationInProgress = false;
+    }
 
 
-	//	Sound Fx
-	[SerializeField]
-	private AudioClip doorOpeningSoundClip;
-	[SerializeField]
-	public AudioClip doorClosingSoundClip;
+IEnumerator CloseDoors()
+    {
+        if (isAnimationInProgress || isLocked) 
+        {
+            yield break; // No hacer nada si la puerta está bloqueada o si ya está en animación
+        }
+        isAnimationInProgress = true; // Marca que la animación está en progreso
 
-	private AudioSource audioSource;
+        if (doorClosingSoundClip != null)
+        {
+            audioSource.PlayOneShot(doorClosingSoundClip, 0.7F);
+        }
 
+        status = DoubleSlidingDoorStatus.Animating;
 
-	// Use this for initialization
-	void Start () {
-		leftDoorClosedPosition	= new Vector3 (0f, 0f, 0f);
-		leftDoorOpenPosition	= new Vector3 (0f, 0f, slideDistance);
+        float t = 0f;
 
-		rightDoorClosedPosition	= new Vector3 (0f, 0f, 0f);
-		rightDoorOpenPosition	= new Vector3 (0f, 0f, -slideDistance);
+        while (t < 1f)
+        {
+            t += Time.deltaTime * speed;
 
-		audioSource = GetComponent<AudioSource>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (status != DoubleSlidingDoorStatus.Animating) {
-			if (status == DoubleSlidingDoorStatus.Open) {
-				if (objectsOnDoorArea == 0) {
-					StartCoroutine ("CloseDoors");
-				}
-			}
-		}
-	}
+            halfDoorLeftTransform.localPosition = Vector3.Slerp(leftDoorOpenPosition, leftDoorClosedPosition, t);
+            halfDoorRightTransform.localPosition = Vector3.Slerp(rightDoorOpenPosition, rightDoorClosedPosition, t);
 
-	void OnTriggerEnter(Collider other) {
-		
-		if (status != DoubleSlidingDoorStatus.Animating) {
-			if (status == DoubleSlidingDoorStatus.Closed) {
-				StartCoroutine ("OpenDoors");
-			}
-		}
+            yield return null;
+        }
 
-		if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer ("Characters")) {
-			objectsOnDoorArea++;
-		}
-	}
+        status = DoubleSlidingDoorStatus.Closed;
+        isAnimationInProgress = false;
+    }
+    public bool DoOpenDoor()
+    {
+        if (isLocked) return false; // Do nothing if the door is locked
 
-	void OnTriggerStay(Collider other) {
-		
-	}
+        if (status != DoubleSlidingDoorStatus.Animating)
+        {
+            if (status == DoubleSlidingDoorStatus.Closed)
+            {
+                StartCoroutine("OpenDoors");
+                return true;
+            }
+        }
 
-	void OnTriggerExit(Collider other) {
-		//	Keep tracking of objects on the door
-		if (other.GetComponent<Collider>().gameObject.layer == LayerMask.NameToLayer ("Characters")) {
-			objectsOnDoorArea--;
-		}
-	}
+        return false;
+    }
 
-	IEnumerator OpenDoors () {
+    public bool DoCloseDoor()
+    {
+        if (isLocked) return false; // Do nothing if the door is locked
 
-		if (doorOpeningSoundClip != null) {
-			audioSource.PlayOneShot (doorOpeningSoundClip, 0.7F);
-		}
+        if (status != DoubleSlidingDoorStatus.Animating)
+        {
+            if (status == DoubleSlidingDoorStatus.Open)
+            {
+                StartCoroutine("CloseDoors");
+                return true;
+            }
+        }
 
-		status = DoubleSlidingDoorStatus.Animating;
+        return false;
+    }
 
-		float t = 0f;
+    // Lock the door to prevent it from opening or closing
+    public void LockDoor()
+    {
+        isLocked = true;
+    }
 
-		while (t < 1f) {
-			t += Time.deltaTime * speed;
-		
-			halfDoorLeftTransform.localPosition = Vector3.Slerp(leftDoorClosedPosition, leftDoorOpenPosition, t);
-			halfDoorRightTransform.localPosition = Vector3.Slerp(rightDoorClosedPosition, rightDoorOpenPosition, t);
-
-			yield return null;
-		}
-
-		status = DoubleSlidingDoorStatus.Open;
-
-	}
-
-	IEnumerator CloseDoors () {
-
-		if (doorClosingSoundClip != null) {
-			audioSource.PlayOneShot(doorClosingSoundClip, 0.7F);
-		}
-
-		status = DoubleSlidingDoorStatus.Animating;
-
-		float t = 0f;
-
-		while (t < 1f) {
-			t += Time.deltaTime * speed;
-
-			halfDoorLeftTransform.localPosition = Vector3.Slerp(leftDoorOpenPosition, leftDoorClosedPosition, t);
-			halfDoorRightTransform.localPosition = Vector3.Slerp(rightDoorOpenPosition, rightDoorClosedPosition, t);
-
-			yield return null;
-		}
-
-		status = DoubleSlidingDoorStatus.Closed;
-
-	}
-
-	//	Forced door opening
-	public bool DoOpenDoor () {
-
-		if (status != DoubleSlidingDoorStatus.Animating) {
-			if (status == DoubleSlidingDoorStatus.Closed) {
-				StartCoroutine ("OpenDoors");
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	//	Forced door closing
-	public bool DoCloseDoor () {
-
-		if (status != DoubleSlidingDoorStatus.Animating) {
-			if (status == DoubleSlidingDoorStatus.Open) {
-				StartCoroutine ("CloseDoors");
-				return true;
-			}
-		}
-
-		return false;
-	}
+    // Unlock the door to allow normal behavior
+    public void UnlockDoor()
+    {
+        isLocked = false;
+    }
 }

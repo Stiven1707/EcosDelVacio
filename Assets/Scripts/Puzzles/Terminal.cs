@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TerminalInteraction : MonoBehaviour
 {
@@ -8,8 +9,9 @@ public class TerminalInteraction : MonoBehaviour
     public Text feedbackText; // Texto de retroalimentación (Correcto/Incorrecto)
     public Button acceptButton; // Botón "Aceptar" para verificar el código
     public string correctCode = "NEXXUS"; // Código correcto
-
+    private GameObject puerta; // Objeto de la puerta
     public GameObject interactionMessage; // UI para mostrar "Presione E para interactuar"
+    public string sceneWithDoor = "Sample Scene"; // Nombre de la escena con la puerta
 
     private bool isPlayerNearby = false; // Indica si el jugador está cerca
     private bool isCanvasActive = false; // Indica si el Canvas está visible
@@ -40,6 +42,24 @@ public class TerminalInteraction : MonoBehaviour
         else
         {
             Debug.LogError("El botón 'Aceptar' no está asignado en el Inspector.");
+        }
+
+        // Cargar la escena con la puerta
+        SceneManager.LoadScene(sceneWithDoor, LoadSceneMode.Additive);
+
+        // Buscar la puerta y bloquearla desde el inicio
+        if (puerta == null)
+        {
+            puerta = GameObject.Find("Door_001");
+
+            if (puerta != null)
+            {
+                Debug.Log("La puerta ha sido encontrada.");
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró la puerta en la escena.");
+            }
         }
     }
 
@@ -122,14 +142,28 @@ public class TerminalInteraction : MonoBehaviour
     private void CheckCode()
     {
         if (codeInputField == null || feedbackText == null) return;
-        
-        string enteredCode = codeInputField.text.ToUpper(); // Convertir el código ingresado a mayúsculas
-        string correctCodeUpper = correctCode.ToUpper();
 
-        if (enteredCode == correctCode)
+        string enteredCode = codeInputField.text.ToUpper(); // Convertir el código ingresado a mayúsculas
+
+        if (enteredCode == correctCode.ToUpper()) // Comparar con el código correcto
         {
             feedbackText.text = "Código correcto. ¡Acceso concedido!";
             Debug.Log("Código correcto.");
+            
+            // Desbloquear la puerta
+            if (puerta != null)
+            {
+                DoubleSlidingDoorController puertaScript = puerta.GetComponent<DoubleSlidingDoorController>();
+                if (puertaScript != null)
+                {
+                    puertaScript.UnlockDoor(); // Desbloquear la puerta
+                    Debug.Log("La puerta ha sido desbloqueada.");
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontró el script 'DoubleSlidingDoorController' en el objeto puerta.");
+                }
+            }
         }
         else
         {

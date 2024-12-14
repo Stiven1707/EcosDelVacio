@@ -914,6 +914,7 @@ MonoBehaviour:
   acceptButton: {fileID: 895208938}
   correctCode: NEXXUS
   interactionMessage: {fileID: 1258006043}
+  sceneWithDoor: Sample Scene
 --- !u!4 &1069298735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 677255da09549664ab113641502c91ab, type: 3}
