@@ -18,6 +18,11 @@ public class SliderOxygenBar : MonoBehaviour
 
     private bool isDead = false;         // Para asegurarnos de que la animación se active una sola vez
 
+    public bool IsDead
+    {
+        get { return isDead; }
+    }
+
     void Start()
     {
         currentOxygen = maxOxygen;
