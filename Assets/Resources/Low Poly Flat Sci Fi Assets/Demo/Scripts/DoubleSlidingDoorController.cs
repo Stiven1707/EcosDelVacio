@@ -44,6 +44,7 @@ public class DoubleSlidingDoorController : MonoBehaviour
     private AudioSource audioSource;
 
     private bool isAnimationInProgress = false; // Variable to check if an animation is in progress
+    public GameObject dialogoPuerta;
 
     void Start()
     {
@@ -55,6 +56,7 @@ public class DoubleSlidingDoorController : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         isLocked = true;
+        dialogoPuerta.SetActive(true);
     }
 
     void Update()
@@ -71,6 +73,7 @@ public class DoubleSlidingDoorController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        DialogoPuerta dialogo = FindObjectOfType<DialogoPuerta>();
         if (isLocked) return; // Do nothing if the door is locked
 
         if (status != DoubleSlidingDoorStatus.Animating)
