@@ -122,8 +122,9 @@ public class TerminalInteraction : MonoBehaviour
     private void CheckCode()
     {
         if (codeInputField == null || feedbackText == null) return;
-
-        string enteredCode = codeInputField.text;
+        
+        string enteredCode = codeInputField.text.ToUpper(); // Convertir el código ingresado a mayúsculas
+        string correctCodeUpper = correctCode.ToUpper();
 
         if (enteredCode == correctCode)
         {
