@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
 {
     private bool isGamePaused = false;
     private bool wasPodAudioPlaying = false;
+    private bool wasCanvasCActive = false;
+    private bool wasCanvasMActive = false;
+    private bool wasCanvasActive = false;
 
     public bool IsGamePaused()
     {
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour
         SetCameraAudio(enable);
         SetCanvasAndOxygenBar(enable);
         SetPodAudio(enable);
+        SetBioMonitor(enable); // Añadir esta línea
     }
 
     private void SetPlayerMovement(bool enable)
@@ -140,8 +144,17 @@ public class GameManager : MonoBehaviour
             GameObject CanvasC = pod.transform.Find("CanvasC")?.gameObject;
             if (CanvasC != null)
             {
-                CanvasC.SetActive(enable);
-                Debug.Log("Texto interactivo " + (enable ? "habilitado" : "deshabilitado") + ".");
+                if (!enable)
+                {
+                    wasCanvasCActive = CanvasC.activeSelf;
+                    CanvasC.SetActive(false);
+                    Debug.Log("Texto interactivo deshabilitado.");
+                }
+                else if (wasCanvasCActive)
+                {
+                    CanvasC.SetActive(true);
+                    Debug.Log("Texto interactivo habilitado.");
+                }
             }
 
             PlayAudioOnKeyPress playAudioScript = pod.GetComponent<PlayAudioOnKeyPress>();
@@ -156,6 +169,53 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Pod no encontrado.");
         }
     }
+
+
+    private void SetBioMonitor(bool enable)
+    {
+        GameObject bioMonitor = GameObject.Find("BioMonitor Red");
+        if (bioMonitor != null)
+        {
+            GameObject canvasM = bioMonitor.transform.Find("CanvasM")?.gameObject;
+            if (canvasM != null)
+            {
+                if (!enable)
+                {
+                    wasCanvasMActive = canvasM.activeSelf;
+                    canvasM.SetActive(false);
+                    Debug.Log("CanvasM deshabilitado.");
+                }
+                else if (wasCanvasMActive)
+                {
+                    canvasM.SetActive(true);
+                    Debug.Log("CanvasM habilitado.");
+                }
+            }
+
+            GameObject canvas = bioMonitor.transform.Find("Canvas")?.gameObject;
+            if (canvas != null)
+            {
+                if (!enable)
+                {
+                    wasCanvasActive = canvas.activeSelf;
+                    canvas.SetActive(false);
+                    Debug.Log("Canvas deshabilitado.");
+                }
+                else if (wasCanvasActive)
+                {
+                    canvas.SetActive(true);
+                    Debug.Log("Canvas habilitado.");
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("BioMonitor Red no encontrado.");
+        }
+    }
+
+
+
 
     public void PauseGame()
     {
