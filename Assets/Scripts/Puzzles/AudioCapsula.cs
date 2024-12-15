@@ -12,7 +12,7 @@ public class PlayAudioOnKeyPress : MonoBehaviour
     {
         // Agregar un componente AudioSource si no existe
         audioSource = GetComponent<AudioSource>();
-        
+
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
@@ -62,6 +62,13 @@ public class PlayAudioOnKeyPress : MonoBehaviour
                 dialogoCapsula.SetActive(true);
                 audioSource.Stop();
                 audioSource.Play();
+
+                DiagoloCapsula dialogo = dialogoCapsula.GetComponent<DiagoloCapsula>();
+                if (dialogo != null)
+                {
+                    dialogoCapsula.SetActive(true);
+                    dialogo.ReiniciarDialogo();
+                }
             }
         }
     }

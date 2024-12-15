@@ -29,9 +29,21 @@ public class GameManager : MonoBehaviour
     private string menuSceneName = "Demo1";
     private string gameSceneName = "edwinespj";
 
+    private Animator playerAnimator; // Referencia al Animator del jugador
+
     public bool IsGamePaused()
     {
         return isGamePaused;
+    }
+
+    void Start()
+    {
+        // Encontrar el Animator del jugador
+        GameObject astronautIdle = GameObject.Find("AstronautIdle");
+        if (astronautIdle != null)
+        {
+            playerAnimator = astronautIdle.GetComponent<Animator>();
+        }
     }
 
     void Update()
@@ -75,11 +87,11 @@ public class GameManager : MonoBehaviour
         {
             ShowDeathScreen();
         }
-        //Prueba Input.GetKeyDown(KeyCode. oprimir M para mostrar pantalla de muerte
-        if (Input.GetKeyDown(KeyCode.M) && !isDeathScreenShown)
-        {
-            ShowDeathScreen();
-        }
+        ////Prueba Input.GetKeyDown(KeyCode. oprimir M para mostrar pantalla de muerte
+        //if (Input.GetKeyDown(KeyCode.M) && !isDeathScreenShown)
+        //{
+        //    ShowDeathScreen();
+        //}
     }
 
     private void ShowDeathScreen()
@@ -94,6 +106,40 @@ public class GameManager : MonoBehaviour
         SetPlayerMovement(false);
         SetCameraAudio(false);
         SetPodAudio(false);
+
+        // Iniciar la transición a la escena del menú principal
+        StartCoroutine(LoadMenuScene(menuSceneName));
+    }
+
+    public void OnDialogFinished()
+    {
+        StartCoroutine(ShowVictoryScreenAfterDelay(3f));
+    }
+
+    private IEnumerator ShowVictoryScreenAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (transitionScreen != null && transitionText != null)
+        {
+            transitionText.text = victoryMessage;
+            transitionScreen.SetActive(true);
+        }
+        SetPlayerMovement(false);
+        SetCameraAudio(false);
+        SetPodAudio(false);
+        // Encontrar el Animator del jugador
+        GameObject astronautIdle = GameObject.Find("AstronautIdle");
+        if (astronautIdle != null)
+        {
+            playerAnimator = astronautIdle.GetComponent<Animator>();
+        }
+        // Detener la animación del jugador
+        if (playerAnimator != null)
+        {
+            //playerAnimator.SetBool("isRunning", false); // Suponiendo que "isRunning" es el parámetro que controla la animación de correr
+            playerAnimator.enabled = false; // Desactivar el Animator
+        }
 
         // Iniciar la transición a la escena del menú principal
         StartCoroutine(LoadMenuScene(menuSceneName));
@@ -406,26 +452,5 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Scene " + sceneName + " is not loaded or valid.");
         }
-    }
-
-    public void OnDialogFinished()
-    {
-        StartCoroutine(ShowVictoryScreenAfterDelay(3f));
-    }
-
-    private IEnumerator ShowVictoryScreenAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (transitionScreen != null && transitionText != null)
-        {
-            transitionText.text = victoryMessage;
-            transitionScreen.SetActive(true);
-        }
-        SetPlayerMovement(false);
-        SetCameraAudio(false);
-        SetPodAudio(false);
-        // Iniciar la transición a la escena del menú principal
-        StartCoroutine(LoadMenuScene(menuSceneName));
     }
 }
