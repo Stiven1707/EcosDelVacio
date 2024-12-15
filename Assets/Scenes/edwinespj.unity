@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxOxygen: 100
-  depletionRate: 0.5
+  depletionRate: 1
   oxygenSlider: {fileID: 689145373}
   oxygenText: {fileID: 1104121426}
   playerAnimator: {fileID: 407232203}
