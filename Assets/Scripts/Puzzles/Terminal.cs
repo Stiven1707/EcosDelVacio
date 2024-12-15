@@ -14,6 +14,8 @@ public class TerminalInteraction : MonoBehaviour
     private GameObject puerta; // Objeto de la puerta
     public GameObject interactionMessage; // UI para mostrar "Presione E para interactuar"
     public string sceneWithDoor = "Sample Scene"; // Nombre de la escena con la puerta
+    public GameObject bioMonitorRed; // Referencia al objeto BioMonitor Red
+    public GameObject bioMonitorBlue; // Referencia al objeto BioMonitor Blue
 
     private string gameSceneName = "edwinespj";
 
@@ -21,17 +23,14 @@ public class TerminalInteraction : MonoBehaviour
     private bool isCanvasActive = false; // Indica si el Canvas está visible
 
     private GameManager gameManager; // Referencia al GameManager
-    
+
     public bool IsCanvasActive
     {
         get { return isCanvasActive; }
     }
 
-
-
     private IEnumerator Start()
     {
-
         // Ocultar el Canvas y el mensaje de interacción al inicio
         if (terminalCanvas != null)
         {
@@ -68,7 +67,7 @@ public class TerminalInteraction : MonoBehaviour
     }
 
     private void Update()
-    { 
+    {
         // Mostrar/ocultar el Canvas al presionar E si el jugador está cerca y no está escribiendo en el InputField
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E) && !codeInputField.isFocused)
         {
@@ -149,7 +148,6 @@ public class TerminalInteraction : MonoBehaviour
         }
     }
 
-
     private void CheckCode()
     {
         if (codeInputField == null || feedbackText == null) return;
@@ -175,6 +173,28 @@ public class TerminalInteraction : MonoBehaviour
                     Debug.LogWarning("No se encontró el script 'DoubleSlidingDoorController' en el objeto puerta.");
                 }
             }
+
+            // Desactivar la interacción con la terminal
+            isPlayerNearby = false;
+            if (interactionMessage != null)
+            {
+                interactionMessage.SetActive(false);
+            }
+            if (terminalCanvas != null)
+            {
+                terminalCanvas.SetActive(false);
+                isCanvasActive = false;
+            }
+
+            // Desactivar BioMonitor Red y activar BioMonitor Blue
+            if (bioMonitorRed != null)
+            {
+                bioMonitorRed.SetActive(false);
+            }
+            if (bioMonitorBlue != null)
+            {
+                bioMonitorBlue.SetActive(true);
+            }
         }
         else
         {
@@ -182,7 +202,6 @@ public class TerminalInteraction : MonoBehaviour
             Debug.Log("Código incorrecto.");
         }
     }
-
 
     private bool IsSceneLoaded(string sceneName)
     {

@@ -119,6 +119,76 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &129596697
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.86696
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0009088614
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b08f20f29283c0744a85b00f6b3cad49, type: 2}
+    - target: {fileID: 919132149155446097, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_Name
+      value: BioMonitor Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+--- !u!1 &129596698 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d8f7f77faf485d84883a17146d1311b6, type: 3}
+  m_PrefabInstance: {fileID: 129596697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &148307284
 GameObject:
   m_ObjectHideFlags: 0
@@ -511,6 +581,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 677255da09549664ab113641502c91ab, type: 3}
       propertyPath: m_Name
       value: BioMonitor Red
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 677255da09549664ab113641502c91ab, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -915,6 +989,8 @@ MonoBehaviour:
   correctCode: NEXUSS
   interactionMessage: {fileID: 1258006043}
   sceneWithDoor: Sample Scene
+  bioMonitorRed: {fileID: 1069298727}
+  bioMonitorBlue: {fileID: 129596698}
 --- !u!4 &1069298735 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 677255da09549664ab113641502c91ab, type: 3}
@@ -2214,6 +2290,7 @@ SceneRoots:
   - {fileID: 1857158045}
   - {fileID: 1700649918}
   - {fileID: 676428998}
+  - {fileID: 129596697}
   - {fileID: 1847378428}
   - {fileID: 2087029802}
   - {fileID: 168388219}
