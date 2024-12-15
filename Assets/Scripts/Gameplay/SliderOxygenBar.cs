@@ -106,4 +106,18 @@ public class SliderOxygenBar : MonoBehaviour
         // Mantener la posición actual del personaje (si la animación lo deja acostado)
         // Si quieres ajustar manualmente la posición o rotación, hazlo aquí
     }
+
+    public void RestoreOxygenToMax()
+    {
+        currentOxygen = maxOxygen;
+
+        // Actualizar el Slider con el nivel máximo de oxígeno
+        if (oxygenSlider != null)
+        {
+            oxygenSlider.value = currentOxygen;
+        }
+
+        // Actualizar el texto con el nivel de oxígeno
+        UpdateOxygenText();
+    }
 }

@@ -23,6 +23,7 @@ public class TerminalInteraction : MonoBehaviour
     private bool isCanvasActive = false; // Indica si el Canvas está visible
 
     private GameManager gameManager; // Referencia al GameManager
+    private SliderOxygenBar sliderOxygenBar; // Referencia al SliderOxygenBar
 
     public bool IsCanvasActive
     {
@@ -64,6 +65,10 @@ public class TerminalInteraction : MonoBehaviour
         }
         // Encontrar y bloquear la puerta
         FindAndLockDoor();
+
+        // Encontrar el SliderOxygenBar
+        sliderOxygenBar = FindObjectOfType<SliderOxygenBar>();
+       
     }
 
     private void Update()
@@ -172,6 +177,13 @@ public class TerminalInteraction : MonoBehaviour
                 {
                     Debug.LogWarning("No se encontró el script 'DoubleSlidingDoorController' en el objeto puerta.");
                 }
+            }
+            // Encontrar el SliderOxygenBar
+            sliderOxygenBar = FindObjectOfType<SliderOxygenBar>();
+            // Restaurar el oxígeno al máximo
+            if (sliderOxygenBar != null)
+            {
+                sliderOxygenBar.RestoreOxygenToMax();
             }
 
             // Desactivar la interacción con la terminal
