@@ -34,12 +34,12 @@ public class DiagoloCapsula : MonoBehaviour
         if (dialogFinished) return;
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
+        if (dialogBehaviour.gameObject.activeSelf && gameManager !=null && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
         {
             dialogBehaviour.PauseDialog();
             dialogBehaviour.gameObject.SetActive(false);
         }
-        else if (!gameManager.IsMenuSceneLoaded() && !dialogBehaviour.gameObject.activeSelf)
+        else if (gameManager != null &&  !gameManager.IsMenuSceneLoaded() && !dialogBehaviour.gameObject.activeSelf)
         {
             dialogBehaviour.gameObject.SetActive(true);
             dialogBehaviour.ResumeDialog();

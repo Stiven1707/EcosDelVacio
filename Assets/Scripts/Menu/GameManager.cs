@@ -156,7 +156,7 @@ public class GameManager : MonoBehaviour
         SetBioMonitor(enable); // Añadir esta línea
     }
 
-    private void SetPlayerMovement(bool enable)
+    public void SetPlayerMovement(bool enable)
     {
         GameObject astronautIdle = GameObject.Find("AstronautIdle");
         if (astronautIdle != null)

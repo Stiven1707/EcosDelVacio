@@ -912,7 +912,7 @@ MonoBehaviour:
   codeInputField: {fileID: 2146540112}
   feedbackText: {fileID: 908999249}
   acceptButton: {fileID: 895208938}
-  correctCode: NEXXUS
+  correctCode: NEXUSS
   interactionMessage: {fileID: 1258006043}
   sceneWithDoor: Sample Scene
 --- !u!4 &1069298735 stripped

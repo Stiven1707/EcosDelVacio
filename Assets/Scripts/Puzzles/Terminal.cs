@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System.Collections;
 
 public class TerminalInteraction : MonoBehaviour
 {
@@ -12,12 +14,16 @@ public class TerminalInteraction : MonoBehaviour
     private GameObject puerta; // Objeto de la puerta
     public GameObject interactionMessage; // UI para mostrar "Presione E para interactuar"
     public string sceneWithDoor = "Sample Scene"; // Nombre de la escena con la puerta
+    public string sceneWithGameManager = "DialoSystem"; // Nombre de la escena con el GameManager
 
     private bool isPlayerNearby = false; // Indica si el jugador está cerca
     private bool isCanvasActive = false; // Indica si el Canvas está visible
 
-    private void Start()
+    private GameManager gameManager; // Referencia al GameManager
+
+    private IEnumerator Start()
     {
+
         // Ocultar el Canvas y el mensaje de interacción al inicio
         if (terminalCanvas != null)
         {
@@ -43,24 +49,16 @@ public class TerminalInteraction : MonoBehaviour
         {
             Debug.LogError("El botón 'Aceptar' no está asignado en el Inspector.");
         }
-
-        // Cargar la escena con la puerta
-        SceneManager.LoadScene(sceneWithDoor, LoadSceneMode.Additive);
-
-        // Buscar la puerta y bloquearla desde el inicio
-        if (puerta == null)
+        while (!IsSceneLoaded(sceneWithGameManager) && !IsSceneLoaded(sceneWithDoor))
         {
-            puerta = GameObject.Find("Door_001");
-
-            if (puerta != null)
-            {
-                Debug.Log("La puerta ha sido encontrada.");
-            }
-            else
-            {
-                Debug.LogWarning("No se encontró la puerta en la escena.");
-            }
+            yield return null;
         }
+
+        // Obtener referencia al GameManager
+        gameManager = FindObjectOfType<GameManager>();
+       
+        // Encontrar y bloquear la puerta
+        FindAndLockDoor();
     }
 
     private void Update()
@@ -108,6 +106,12 @@ public class TerminalInteraction : MonoBehaviour
             {
                 terminalCanvas.SetActive(false);
                 isCanvasActive = false;
+
+                // Habilitar la movilidad del jugador
+                if (gameManager != null)
+                {
+                    gameManager.SetPlayerMovement(true);
+                }
             }
         }
     }
@@ -136,6 +140,12 @@ public class TerminalInteraction : MonoBehaviour
             {
                 interactionMessage.SetActive(false);
             }
+
+            // Deshabilitar la movilidad del jugador
+            if (gameManager != null)
+            {
+                gameManager.SetPlayerMovement(false);
+            }
         }
     }
 
@@ -149,7 +159,7 @@ public class TerminalInteraction : MonoBehaviour
         {
             feedbackText.text = "Código correcto. ¡Acceso concedido!";
             Debug.Log("Código correcto.");
-            
+
             // Desbloquear la puerta
             if (puerta != null)
             {
@@ -169,6 +179,46 @@ public class TerminalInteraction : MonoBehaviour
         {
             feedbackText.text = "Código incorrecto. Inténtalo de nuevo.";
             Debug.Log("Código incorrecto.");
+        }
+    }
+
+    private bool IsSceneLoaded(string sceneName)
+    {
+        for (int i = 0; i < SceneManager.sceneCount; i++)
+        {
+            Scene scene = SceneManager.GetSceneAt(i);
+            if (scene.name == sceneName)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void FindAndLockDoor()
+    {
+        if (puerta == null)
+        {
+            puerta = GameObject.Find("Door_001");
+
+            if (puerta != null)
+            {
+                Debug.Log("La puerta ha sido encontrada.");
+                DoubleSlidingDoorController puertaScript = puerta.GetComponent<DoubleSlidingDoorController>();
+                if (puertaScript != null)
+                {
+                    puertaScript.LockDoor(); // Bloquear la puerta desde el inicio
+                    Debug.Log("La puerta ha sido bloqueada.");
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontró el script 'DoubleSlidingDoorController' en el objeto puerta.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró la puerta en la escena.");
+            }
         }
     }
 }
