@@ -211,9 +211,18 @@ public class TerminalInteraction : MonoBehaviour
         else
         {
             feedbackText.text = "Código incorrecto. Inténtalo de nuevo.";
+            feedbackText.color = Color.red; // Cambiar el color del texto a rojo
             Debug.Log("Código incorrecto.");
+            StartCoroutine(ResetFeedbackTextColor());
         }
     }
+
+    private IEnumerator ResetFeedbackTextColor()
+    {
+        yield return new WaitForSeconds(1f); // Esperar 1 segundo
+        feedbackText.color = Color.white; // Restaurar el color original del texto
+    }
+
 
     private bool IsSceneLoaded(string sceneName)
     {
