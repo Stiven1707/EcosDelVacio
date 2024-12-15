@@ -16,8 +16,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 500.80008
-    y: 148.8
+    x: 696.00006
+    y: 147.99998
     width: 190
     height: 135
   isDragging: 0
@@ -27,6 +27,36 @@ MonoBehaviour:
     text: "\xBFQu\xE9...? \xBFOx\xEDgeno? No... no puede  ser..."
     characterSprite: {fileID: 0}
   parentNode: {fileID: -2235237114049081678}
+  childNode: {fileID: -3954092104073917898}
+  isExternalFunc: 0
+  externalFunctionName: 
+--- !u!114 &-3954092104073917898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
+  m_Name: Sentence Node
+  m_EditorClassIdentifier: 
+  connectedNodesList: []
+  nodeGraph: {fileID: 11400000}
+  rect:
+    serializedVersion: 2
+    x: 336.8
+    y: 344.00003
+    width: 190
+    height: 135
+  isDragging: 0
+  isSelected: 0
+  sentence:
+    characterName: Objetivo
+    text: Busca pistas en las capsulas
+    characterSprite: {fileID: 0}
+  parentNode: {fileID: -4756772591314556098}
   childNode: {fileID: 0}
   isExternalFunc: 0
   externalFunctionName: 
@@ -46,8 +76,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 173.60004
-    y: 114.40001
+    x: 368.8
+    y: 113.59999
     width: 190
     height: 135
   isDragging: 0
@@ -76,6 +106,7 @@ MonoBehaviour:
   - {fileID: 2204180941076199772}
   - {fileID: -2235237114049081678}
   - {fileID: -4756772591314556098}
+  - {fileID: -3954092104073917898}
   nodeToDrawLineFrom: {fileID: 0}
   linePosition: {x: 0, y: 0}
 --- !u!114 &2204180941076199772
@@ -94,8 +125,8 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: -120.79999
-    y: 92
+    x: 74.40001
+    y: 91.19998
     width: 190
     height: 135
   isDragging: 0

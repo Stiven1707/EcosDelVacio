@@ -407,5 +407,25 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Scene " + sceneName + " is not loaded or valid.");
         }
     }
-}
 
+    public void OnDialogFinished()
+    {
+        StartCoroutine(ShowVictoryScreenAfterDelay(3f));
+    }
+
+    private IEnumerator ShowVictoryScreenAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (transitionScreen != null && transitionText != null)
+        {
+            transitionText.text = victoryMessage;
+            transitionScreen.SetActive(true);
+        }
+        SetPlayerMovement(false);
+        SetCameraAudio(false);
+        SetPodAudio(false);
+        // Iniciar la transición a la escena del menú principal
+        StartCoroutine(LoadMenuScene(menuSceneName));
+    }
+}

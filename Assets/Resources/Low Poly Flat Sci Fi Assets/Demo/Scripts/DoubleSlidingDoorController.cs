@@ -56,7 +56,7 @@ public class DoubleSlidingDoorController : MonoBehaviour
 
         audioSource = GetComponent<AudioSource>();
         isLocked = true;
-        dialogoPuerta.SetActive(true);
+        
     }
 
     void Update()
@@ -73,7 +73,7 @@ public class DoubleSlidingDoorController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        DialogoPuerta dialogo = FindObjectOfType<DialogoPuerta>();
+       
         if (isLocked) return; // Do nothing if the door is locked
 
         if (status != DoubleSlidingDoorStatus.Animating)
@@ -132,6 +132,11 @@ public class DoubleSlidingDoorController : MonoBehaviour
 
         status = DoubleSlidingDoorStatus.Open;
         isAnimationInProgress = false;
+        // Activa el diálogo cuando la puerta se abre, solo si no es null
+        if (dialogoPuerta != null)
+        {
+            dialogoPuerta.SetActive(true);
+        }
     }
 
 

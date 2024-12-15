@@ -3,6 +3,7 @@ using SlimUI.ModernMenu;
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+
 public class DialogoPuerta : MonoBehaviour
 {
     [SerializeField]
@@ -13,6 +14,12 @@ public class DialogoPuerta : MonoBehaviour
 
     private bool dialogFinished = false;
 
+    private GameManager gameManager;
+
+    private void Awake()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     public IEnumerator Start()
     {
@@ -35,7 +42,7 @@ public class DialogoPuerta : MonoBehaviour
         if (dialogFinished) return;
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (dialogBehaviour.gameObject.activeSelf && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
+        if (dialogBehaviour.gameObject.activeSelf && gameManager != null && gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded())
         {
             dialogBehaviour.PauseDialog();
             dialogBehaviour.gameObject.SetActive(false);
@@ -51,9 +58,6 @@ public class DialogoPuerta : MonoBehaviour
     {
         GameManager gameManager = FindObjectOfType<GameManager>();
         return gameManager != null && !gameManager.IsMenuSceneLoaded() && gameManager.IsGameSceneLoaded();
-
-        //TODO cuando empezar
-
     }
 
     private void DebugExternal()
@@ -64,5 +68,9 @@ public class DialogoPuerta : MonoBehaviour
     private void OnDialogFinished()
     {
         dialogFinished = true;
+        if (gameManager != null)
+        {
+            gameManager.OnDialogFinished();
+        }
     }
 }

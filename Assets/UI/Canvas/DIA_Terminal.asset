@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-9182670201067485063
+--- !u!114 &-6195908071766835790
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16,110 +16,109 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: 379.4663
-    y: 107.466675
+    x: 490.4002
+    y: 112
+    width: 190
+    height: 135
+  isDragging: 0
+  isSelected: 0
+  sentence:
+    characterName: GAMEPLAY
+    text: "Ox\xEDgeno al maximo..  Tarjeta de acceso obtenida... Puerta desbloqueada..."
+    characterSprite: {fileID: 0}
+  parentNode: {fileID: -4508343615843459558}
+  childNode: {fileID: -2992810013461290055}
+  isExternalFunc: 0
+  externalFunctionName: 
+--- !u!114 &-4508343615843459558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
+  m_Name: Sentence Node
+  m_EditorClassIdentifier: 
+  connectedNodesList: []
+  nodeGraph: {fileID: 11400000}
+  rect:
+    serializedVersion: 2
+    x: 248.80003
+    y: 125.60004
     width: 190
     height: 135
   isDragging: 0
   isSelected: 0
   sentence:
     characterName: INGENIERO
-    text: "\"Esos n\xFAmeros... deben significar algo.\""
-    characterSprite: {fileID: 0}
-  parentNode: {fileID: -5145844897102379542}
-  childNode: {fileID: 0}
-  isExternalFunc: 0
-  externalFunctionName: 
---- !u!114 &-5145844897102379542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
-  m_Name: Sentence Node
-  m_EditorClassIdentifier: 
-  connectedNodesList: []
-  nodeGraph: {fileID: 11400000}
-  rect:
-    serializedVersion: 2
-    x: 108.00018
-    y: 42.266663
-    width: 190
-    height: 135
-  isDragging: 0
-  isSelected: 0
-  sentence:
-    characterName: DOCTOR
-    text: ...que Dios nos ayude."
-    characterSprite: {fileID: 0}
-  parentNode: {fileID: 7488333549819795055}
-  childNode: {fileID: -9182670201067485063}
-  isExternalFunc: 0
-  externalFunctionName: 
---- !u!114 &-4595703168210559410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
-  m_Name: Sentence Node
-  m_EditorClassIdentifier: 
-  connectedNodesList: []
-  nodeGraph: {fileID: 11400000}
-  rect:
-    serializedVersion: 2
-    x: -419.33307
-    y: -115.73334
-    width: 190
-    height: 135
-  isDragging: 0
-  isSelected: 0
-  sentence:
-    characterName: 'DOCTOR '
-    text: "...evacuado al personal no esencial en las c\xE1psulas 7, 15 y 22. El
-      equipo de contingencia permanece en las 4, 11 y 19..."
-    characterSprite: {fileID: 0}
-  parentNode: {fileID: -669298392581449048}
-  childNode: {fileID: 7488333549819795055}
-  isExternalFunc: 0
-  externalFunctionName: 
---- !u!114 &-669298392581449048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
-  m_Name: Sentence Node
-  m_EditorClassIdentifier: 
-  connectedNodesList: []
-  nodeGraph: {fileID: 11400000}
-  rect:
-    serializedVersion: 2
-    x: -674.7998
-    y: -194.4
-    width: 190
-    height: 135
-  isDragging: 0
-  isSelected: 0
-  sentence:
-    characterName: DOCTOR
-    text: "El experimento... ha fallado. La energ\xEDa del agujero negro est\xE1
-      desestabilizando la estaci\xF3n. Hemos..."
+    text: '"Por fin. Ahora tengo una  oportunidad.'
     characterSprite: {fileID: 0}
   parentNode: {fileID: 0}
-  childNode: {fileID: -4595703168210559410}
+  childNode: {fileID: -6195908071766835790}
+  isExternalFunc: 0
+  externalFunctionName: 
+--- !u!114 &-3659173575296510812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
+  m_Name: Sentence Node
+  m_EditorClassIdentifier: 
+  connectedNodesList: []
+  nodeGraph: {fileID: 11400000}
+  rect:
+    serializedVersion: 2
+    x: 0.000022888184
+    y: 120
+    width: 190
+    height: 135
+  isDragging: 0
+  isSelected: 0
+  sentence:
+    characterName: TERMINAL
+    text: " C\xD3DIGO ACEPTADO"
+    characterSprite: {fileID: 0}
+  parentNode: {fileID: 0}
+  childNode: {fileID: -4508343615843459558}
+  isExternalFunc: 0
+  externalFunctionName: 
+--- !u!114 &-2992810013461290055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
+  m_Name: Sentence Node
+  m_EditorClassIdentifier: 
+  connectedNodesList: []
+  nodeGraph: {fileID: 11400000}
+  rect:
+    serializedVersion: 2
+    x: 760.0002
+    y: 98.39995
+    width: 190
+    height: 135
+  isDragging: 0
+  isSelected: 0
+  sentence:
+    characterName: TERMINAL
+    text: "ALERTA: Fallo cr\xEDtico en sistemas de  soporte vital. Restauraci\xF3n
+      de energ\xEDa  requerida en el M\xF3dulo de Ingenier\xEDa."
+    characterSprite: {fileID: 0}
+  parentNode: {fileID: 0}
+  childNode: {fileID: 6831724956876920080}
   isExternalFunc: 0
   externalFunctionName: 
 --- !u!114 &11400000
@@ -132,17 +131,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 33f741ea10ebcf842a91c9b871dd032a, type: 3}
-  m_Name: Dia_Capsula
+  m_Name: DIA_Terminal
   m_EditorClassIdentifier: 
   nodesList:
-  - {fileID: -669298392581449048}
-  - {fileID: -4595703168210559410}
-  - {fileID: 7488333549819795055}
-  - {fileID: -5145844897102379542}
-  - {fileID: -9182670201067485063}
+  - {fileID: -3659173575296510812}
+  - {fileID: -4508343615843459558}
+  - {fileID: -6195908071766835790}
+  - {fileID: -2992810013461290055}
+  - {fileID: 6831724956876920080}
+  - {fileID: 5006750280924100252}
   nodeToDrawLineFrom: {fileID: 0}
   linePosition: {x: 0, y: 0}
---- !u!114 &7488333549819795055
+--- !u!114 &5006750280924100252
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,18 +158,48 @@ MonoBehaviour:
   nodeGraph: {fileID: 11400000}
   rect:
     serializedVersion: 2
-    x: -145.33318
-    y: -7.0666656
+    x: 800.00006
+    y: 331.2
     width: 190
     height: 135
   isDragging: 0
   isSelected: 0
   sentence:
-    characterName: DOCTOR
-    text: "...Si alguien encuentra esto, el c\xF3digo de supervivencia est\xE1 en
-      las c\xE1psulas. Repito: 7-15-22-4-11-19. Es nuestra \xFAnica..."
+    characterName: Nuevo objetivo
+    text: "Ir a el m\xF3dulo de  ingenier\xEDa"
     characterSprite: {fileID: 0}
-  parentNode: {fileID: -4595703168210559410}
-  childNode: {fileID: -5145844897102379542}
+  parentNode: {fileID: 6831724956876920080}
+  childNode: {fileID: 0}
+  isExternalFunc: 0
+  externalFunctionName: 
+--- !u!114 &6831724956876920080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32a464d8ccff4e40a60c45b40a1e648, type: 3}
+  m_Name: Sentence Node
+  m_EditorClassIdentifier: 
+  connectedNodesList: []
+  nodeGraph: {fileID: 11400000}
+  rect:
+    serializedVersion: 2
+    x: 529.60016
+    y: 303.2
+    width: 190
+    height: 135
+  isDragging: 0
+  isSelected: 0
+  sentence:
+    characterName: INGENIERO
+    text: "Ingenier\xEDa... si puedo llegar hasta  all\xED, tal vez pueda arreglar
+      esto."
+    characterSprite: {fileID: 0}
+  parentNode: {fileID: 0}
+  childNode: {fileID: 5006750280924100252}
   isExternalFunc: 0
   externalFunctionName: 
