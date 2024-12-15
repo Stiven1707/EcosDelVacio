@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: ae222e76ff93e46559d325391c949386
+timeCreated: 1517879592
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Door_Right_002.prefab
+  uploadId: 231532

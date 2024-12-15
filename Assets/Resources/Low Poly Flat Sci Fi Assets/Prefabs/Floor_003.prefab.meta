@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 33a6e567eebc54f3ab4d3d60d6f1bf72
+timeCreated: 1517065188
+licenseType: Store
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110775
+  packageName: Low Poly Sci Fi Set
+  packageVersion: 1.0
+  assetPath: Assets/Low Poly Flat Sci Fi Assets/Prefabs/Floor_003.prefab
+  uploadId: 231532

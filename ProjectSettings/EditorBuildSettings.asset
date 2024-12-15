@@ -6,8 +6,26 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/UI/SlimUI/Modern Menu 1/Scenes/Demos/Demo1.unity
+    guid: 829a86ba161cdd840842063447f41aab
+  - enabled: 1
+    path: Assets/UI/SlimUI/Modern Menu 1/Scenes/Demos/Demo1Scene2.unity
+    guid: 4c89c579092f70744885e7d9f6baba7f
+  - enabled: 1
+    path: Assets/Resources/Low Poly Flat Sci Fi Assets/Demo/Scenes/Sample Scene.unity
+    guid: 0b0403de45d31496f8b90f72b42b0ba0
+  - enabled: 1
+    path: Assets/Scenes/DialogSystem.unity
+    guid: 4a9dbbeb7f72ed444b2516f315d7d68c
+  - enabled: 1
+    path: Assets/Scenes/kjimenez.unity
+    guid: 0219dfcb22d5aa048bd98bb06c66b316
+  - enabled: 1
+    path: Assets/Scenes/edwinespj.unity
+    guid: 44a1df43919d83d49b154fa58e93108e
+  - enabled: 1
+    path: Assets/Scenes/shigidio.unity
+    guid: 90868d517ba3222498ee340aa5a1b9f6
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
