@@ -6,8 +6,9 @@ public class SliderOxygenBar : MonoBehaviour
 {
     [Header("Configuración del Oxígeno")]
     public float maxOxygen = 100f; // Nivel máximo de oxígeno
-    public float depletionRate = 0.5f; // Velocidad de consumo de oxígeno por segundo
+    public float depletionRate = 1.0f;// Velocidad de consumo de oxígeno por segundo
     private float currentOxygen;
+    private float depletionRateWin = 0.5f;
 
     [Header("Referencias UI")]
     public Slider oxygenSlider;          // Referencia al Slider del oxígeno
@@ -115,6 +116,7 @@ public class SliderOxygenBar : MonoBehaviour
         if (oxygenSlider != null)
         {
             oxygenSlider.value = currentOxygen;
+            depletionRate = depletionRateWin;
         }
 
         // Actualizar el texto con el nivel de oxígeno
