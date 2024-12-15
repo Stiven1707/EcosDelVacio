@@ -14,12 +14,20 @@ public class TerminalInteraction : MonoBehaviour
     private GameObject puerta; // Objeto de la puerta
     public GameObject interactionMessage; // UI para mostrar "Presione E para interactuar"
     public string sceneWithDoor = "Sample Scene"; // Nombre de la escena con la puerta
-    public string sceneWithGameManager = "DialoSystem"; // Nombre de la escena con el GameManager
+
+    private string gameSceneName = "edwinespj";
 
     private bool isPlayerNearby = false; // Indica si el jugador está cerca
     private bool isCanvasActive = false; // Indica si el Canvas está visible
 
     private GameManager gameManager; // Referencia al GameManager
+    
+    public bool IsCanvasActive
+    {
+        get { return isCanvasActive; }
+    }
+
+
 
     private IEnumerator Start()
     {
@@ -49,20 +57,18 @@ public class TerminalInteraction : MonoBehaviour
         {
             Debug.LogError("El botón 'Aceptar' no está asignado en el Inspector.");
         }
-        while (!IsSceneLoaded(sceneWithGameManager) && !IsSceneLoaded(sceneWithDoor))
+
+        // Esperar a que la escena esté completamente cargada
+        while (!IsSceneLoaded(sceneWithDoor))
         {
             yield return null;
         }
-
-        // Obtener referencia al GameManager
-        gameManager = FindObjectOfType<GameManager>();
-       
         // Encontrar y bloquear la puerta
         FindAndLockDoor();
     }
 
     private void Update()
-    {
+    { 
         // Mostrar/ocultar el Canvas al presionar E si el jugador está cerca y no está escribiendo en el InputField
         if (isPlayerNearby && Input.GetKeyDown(KeyCode.E) && !codeInputField.isFocused)
         {
@@ -106,12 +112,6 @@ public class TerminalInteraction : MonoBehaviour
             {
                 terminalCanvas.SetActive(false);
                 isCanvasActive = false;
-
-                // Habilitar la movilidad del jugador
-                if (gameManager != null)
-                {
-                    gameManager.SetPlayerMovement(true);
-                }
             }
         }
     }
@@ -149,6 +149,7 @@ public class TerminalInteraction : MonoBehaviour
         }
     }
 
+
     private void CheckCode()
     {
         if (codeInputField == null || feedbackText == null) return;
@@ -181,6 +182,7 @@ public class TerminalInteraction : MonoBehaviour
             Debug.Log("Código incorrecto.");
         }
     }
+
 
     private bool IsSceneLoaded(string sceneName)
     {

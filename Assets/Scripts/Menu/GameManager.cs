@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        // buscamos el TerminalInteraction
+        TerminalInteraction terminalInteraction = FindObjectOfType<TerminalInteraction>();
         if (Input.GetKeyDown(KeyCode.Escape) && !IsMenuSceneLoaded())
         {
             TogglePause();
@@ -48,6 +50,18 @@ public class GameManager : MonoBehaviour
         else
         {
             HandleGameScene(true);
+        }
+        if (terminalInteraction != null)
+        {
+            // si el terminal está activo, pausamos el juego
+            if (terminalInteraction.IsCanvasActive)
+            {
+                SetPlayerMovement(false);
+            }
+            else
+            {
+                SetPlayerMovement(true);
+            }
         }
         // Verificar si el personaje ha muerto
         CheckForDeath();
