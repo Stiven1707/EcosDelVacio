@@ -161,7 +161,11 @@ public class TerminalInteraction : MonoBehaviour
 
         if (enteredCode == correctCode.ToUpper()) // Comparar con el código correcto
         {
+            codeInputField.text = "";
+            codeInputField.ActivateInputField();
             feedbackText.text = "Código correcto. ¡Acceso concedido!";
+            feedbackText.color = Color.green; // Cambiar el color del texto a verde
+            feedbackText.gameObject.SetActive(true); // Asegurarse de que el texto de retroalimentación esté activo
             Debug.Log("Código correcto.");
 
             // Desbloquear la puerta
@@ -210,8 +214,11 @@ public class TerminalInteraction : MonoBehaviour
         }
         else
         {
+            codeInputField.text = "";
+            codeInputField.ActivateInputField();
             feedbackText.text = "Código incorrecto. Inténtalo de nuevo.";
             feedbackText.color = Color.red; // Cambiar el color del texto a rojo
+            feedbackText.gameObject.SetActive(true); // Asegurarse de que el texto de retroalimentación esté activo
             Debug.Log("Código incorrecto.");
             StartCoroutine(ResetFeedbackTextColor());
         }
@@ -221,7 +228,9 @@ public class TerminalInteraction : MonoBehaviour
     {
         yield return new WaitForSeconds(1f); // Esperar 1 segundo
         feedbackText.color = Color.white; // Restaurar el color original del texto
+        feedbackText.gameObject.SetActive(false); // Ocultar el texto de retroalimentación
     }
+
 
 
     private bool IsSceneLoaded(string sceneName)
